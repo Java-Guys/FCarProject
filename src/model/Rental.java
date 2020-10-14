@@ -9,6 +9,7 @@ import java.time.LocalDate;
  */
 
 public class Rental {
+    private static int rentalNoCounter;
     private int rentalNo;
     private Customer customer;
     private Car car;
@@ -19,7 +20,7 @@ public class Rental {
 
 
     public Rental() {
-
+        this.rentalNo = ++rentalNoCounter;
     }
 
     /**
@@ -31,15 +32,15 @@ public class Rental {
      * @param deposit
      * @param invoice
      */
-    public Rental(int rentalNo,
-               Customer customer,
-               Car car,
-               LocalDate startDate,
-               LocalDate endDate,
-               double deposit,
-               Invoice invoice) {
+    public Rental(
+            Customer customer,
+            Car car,
+            LocalDate startDate,
+            LocalDate endDate,
+            double deposit,
+            Invoice invoice) {
 
-        this.rentalNo = rentalNo;
+        this.rentalNo = ++rentalNoCounter;
         this.customer = customer;
         this.car = car;
         this.startDate = startDate;
@@ -48,6 +49,7 @@ public class Rental {
         this.invoice = invoice;
     }
 
+
     /**
      * @return rentalNo
      */
@@ -55,12 +57,6 @@ public class Rental {
         return rentalNo;
     }
 
-    /**
-     * @param rentalNo
-     */
-    public void setRentalNo(int rentalNo) {
-        this.rentalNo = rentalNo;
-    }
 
     /**
      * @return customer

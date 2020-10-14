@@ -10,22 +10,26 @@ import java.util.Date;
 
 public class Payment {
 
-    private String paymentDescription;
+    private static int idCounter = 0;
     private int paymentId;
+    private String paymentDescription;
     private double price;
     private Date paymentDate;
 
     /**
      * @param paymentDescription
-     * @param paymentId
      * @param price
      * @param paymentDate
      */
-    public Payment(String paymentDescription, int paymentId, double price, Date paymentDate) {
+    public Payment(String paymentDescription, double price, Date paymentDate) {
+        this.paymentId = ++idCounter;
         this.paymentDescription = paymentDescription;
-        this.paymentId = paymentId;
         this.price = price;
         this.paymentDate = paymentDate;
+    }
+
+    public Payment() {
+        this.paymentId = ++idCounter;
     }
 
     /**
@@ -49,12 +53,6 @@ public class Payment {
         return paymentId;
     }
 
-    /**
-     * @param paymentId
-     */
-    public void setPaymentId(int paymentId) {
-        this.paymentId = paymentId;
-    }
 
     /**
      * @return price

@@ -70,16 +70,16 @@ public class FCarSystem {
 
 
     /**
-     * @param tcar
+     * @param car
      * @return message
      */
-    public String addCar(Car tcar){
+    public String addCar(Car car){
         for(int i = 0; i < cars.size(); i++){
-            if(cars.get(i).getPlateNo() == tcar.getPlateNo()){
+            if(cars.get(i).getPlateNo() == car.getPlateNo()){
                 return "this car already exists";
             }
         }
-        cars.add(tcar);
+        cars.add(car);
         return "added car successfully";
     }
 
@@ -147,7 +147,7 @@ public class FCarSystem {
      * @param customerId
      * @return message
      */
-    public String deletCustomer(int customerId){
+    public String deleteCustomer(int customerId){
         for(int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getCustomerId() == customerId) {
                 customers.remove(i);
