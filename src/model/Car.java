@@ -1,17 +1,21 @@
 package model;
 
 /**
- *
  * @author Mahmoud Shreif
+ * @author M-Hamdy-M
  * Date: 10/10/2020
- * Version 1
- *
+ * Version 2
  */
 class Car {
     private String plateNo;
     private String model;
     private boolean isAvailable;
     private CarType type;
+    private double dailyRentalRate;
+
+    public Car() {
+
+    }
 
     public Car(String plateNo, String model, boolean isAvailable, CarType type) {
         this.plateNo = plateNo;
@@ -21,8 +25,20 @@ class Car {
 
     }
 
-    public Car() {
+    public Car(String plateNo, String model, boolean isAvailable, CarType type, double dailyRentalRate, double monthlyRentalRate) {
+        this.plateNo = plateNo;
+        this.model = model;
+        this.isAvailable = isAvailable;
+        this.type = type;
+        this.dailyRentalRate = dailyRentalRate;
+    }
 
+    public double getDailyRentalRate() {
+        return dailyRentalRate;
+    }
+
+    public void setDailyRentalRate(double dailyRentalRate) {
+        this.dailyRentalRate = dailyRentalRate;
     }
 
     public String getPlateNo() {
