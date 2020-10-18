@@ -1,10 +1,11 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
  * @author Omar Alkashef
+ * @author M-Hamdy-M
  * Creation Date : 10-10-2020
  * @version 1
  */
@@ -13,22 +14,23 @@ public class Invoice {
 
     private static int invoiceNoCounter = 0;
     private int invoiceNo;
-    private Date invoiceDate;
+    private LocalDate invoiceDate;
     private List<Payment> payments;
+
+    public Invoice() {
+        this.invoiceNo = ++invoiceNoCounter;
+    }
 
     /**
      * @param invoiceDate
      * @param payments
      */
-    public Invoice(Date invoiceDate, List<Payment> payments) {
+    public Invoice(LocalDate invoiceDate, List<Payment> payments) {
         this.invoiceNo = ++invoiceNoCounter;
         this.invoiceDate = invoiceDate;
         this.payments = payments;
     }
 
-    public Invoice() {
-        this.invoiceNo = ++invoiceNoCounter;
-    }
 
     /**
      * @return invoiceNo
@@ -41,14 +43,14 @@ public class Invoice {
     /**
      * @return invoiceDate
      */
-    public Date getInvoiceDate() {
+    public LocalDate getInvoiceDate() {
         return invoiceDate;
     }
 
     /**
      * @param invoiceDate
      */
-    public void setInvoiceDate(Date invoiceDate) {
+    public void setInvoiceDate(LocalDate invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
 
@@ -71,15 +73,13 @@ public class Invoice {
      * @return message
      */
     public String modifyPayment(Payment payment) {
-
         for (int i = 0; i < payments.size(); i++) {
             if (payments.get(i).getPaymentId() == payment.getPaymentId()) {
                 payments.set(i, payment);
-                return "Updated payment successfully";
+                return "updated payment successfully";
             }
-
         }
-        return "Couldn't update the payment";
+        return "couldn't find the provided payment";
     }
 
     /**
@@ -94,7 +94,8 @@ public class Invoice {
                 return "Delete payment successfully";
             }
         }
-        return "Couldn't delete the payment";
+        return "Couldn't find a payment with this Id";
+
     }
 
     /**
@@ -117,9 +118,9 @@ public class Invoice {
      * @return payment
      */
     public Payment getPayment(int paymentId) {
-        for (int i = 0; i < payments.size(); i++) {
-            if (payments.get(i).getPaymentId() == paymentId) {
-                return payments.get(i);
+        for (Payment payment : payments) {
+            if (payment.getPaymentId() == paymentId) {
+                return payment;
             }
         }
         return null;
@@ -136,4 +137,12 @@ public class Invoice {
         return total;
     }
 
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "invoiceNo=" + invoiceNo +
+                ", invoiceDate=" + invoiceDate +
+                ", payments=" + payments +
+                '}';
+    }
 }

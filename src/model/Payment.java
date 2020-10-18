@@ -1,9 +1,10 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author Omar Alkashef
+ * @author M-Hamdy-M
  * Creation Date : 10-10-2020
  * @version 1
  */
@@ -11,26 +12,28 @@ import java.util.Date;
 public class Payment {
 
     private static int idCounter = 0;
-    private int paymentId;
     private String paymentDescription;
+    private int paymentId;
     private double price;
-    private Date paymentDate;
+    private LocalDate paymentDate;
+
+    public Payment() {
+        this.paymentId = ++idCounter;
+    }
 
     /**
      * @param paymentDescription
      * @param price
      * @param paymentDate
      */
-    public Payment(String paymentDescription, double price, Date paymentDate) {
-        this.paymentId = ++idCounter;
+    public Payment(String paymentDescription, double price, LocalDate paymentDate) {
         this.paymentDescription = paymentDescription;
+        this.paymentId = ++idCounter;
         this.price = price;
         this.paymentDate = paymentDate;
     }
 
-    public Payment() {
-        this.paymentId = ++idCounter;
-    }
+
 
     /**
      * @return paymentDescription
@@ -71,14 +74,24 @@ public class Payment {
     /**
      * @return paymentDate
      */
-    public Date getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
     /**
      * @param paymentDate
      */
-    public void setPaymentDate(Date paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "paymentDescription='" + paymentDescription + '\'' +
+                ", paymentId=" + paymentId +
+                ", price=" + price +
+                ", paymentDate=" + paymentDate +
+                '}';
     }
 }
