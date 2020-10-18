@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 /**
  * @author Omar Alkashef
+ * @author M-Hamdy-M
  * Creation Date : 10-10-2020
  * @version 1
  */
@@ -24,7 +25,6 @@ public class Rental {
     }
 
     /**
-     * @param rentalNo
      * @param customer
      * @param car
      * @param startDate
@@ -41,12 +41,12 @@ public class Rental {
             Invoice invoice) {
 
         this.rentalNo = ++rentalNoCounter;
-        this.customer = customer;
-        this.car = car;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.deposit = deposit;
-        this.invoice = invoice;
+        setCustomer(customer);
+        setCar(car);
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setDeposit(deposit);
+        setInvoice(invoice);
     }
 
 
@@ -111,6 +111,14 @@ public class Rental {
      * @param endDate
      */
     public void setEndDate(LocalDate endDate) {
+        if (getStartDate() == null) {
+            System.out.println("Please initialize start date first");
+            return;
+        }
+        if (endDate.isBefore(startDate)){
+            System.out.println("end date can't be before start date!");
+            return;
+        }
         this.endDate = endDate;
     }
 
@@ -125,6 +133,10 @@ public class Rental {
      * @param deposit
      */
     public void setDeposit(double deposit) {
+        if (deposit < 0){
+            System.out.println("deposit can't be negative! ");
+            return;
+        }
         this.deposit = deposit;
     }
 
@@ -140,5 +152,18 @@ public class Rental {
      */
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    @Override
+    public String toString() {
+        return "Rental{" +
+                "rentalNo=" + rentalNo +
+                ", customer name=" + customer.getName() +
+                ", car plate no=" + car.getPlateNo() +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", deposit=" + deposit +
+                ", invoice=" + invoice +
+                '}';
     }
 }
