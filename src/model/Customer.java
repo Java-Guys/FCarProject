@@ -23,7 +23,12 @@ public class Customer {
      * @param nationality
      * @param drivingLicence
      */
-    public Customer(int customerId, String name, String phone, String address, String nationality, String drivingLicence) {
+    public Customer(int customerId,
+                    String name,
+                    String phone,
+                    String address,
+                    String nationality,
+                    String drivingLicence) {
         this.customerId = customerId;
         this.name = name;
         this.phone = phone;
@@ -114,6 +119,18 @@ public class Customer {
      */
     public void setDrivingLicence(String drivingLicence) {
         this.drivingLicence = drivingLicence;
+    }
+
+    //for testing purposes
+    @Override
+    public String toString() {
+        return String.format("|%10s|%20s|%15s|%25s|%15s|%20s|",
+                getCustomerId(),
+                getName(),
+                getPhone(),
+                getAddress(),
+                getNationality(),
+                getDrivingLicence());
     }
 }
 
