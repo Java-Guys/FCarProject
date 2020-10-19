@@ -4,8 +4,14 @@ import model.*;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author M-Hamdy-M
+ * created at: 19-10-2020
+ * @version 1
+ */
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
@@ -127,7 +133,8 @@ public class Main {
             System.out.println("please choose what you want to do:");
             System.out.println("[1] sign in.");
             System.out.println("[2] sign up.");
-            System.out.println("[3] exit.");
+            System.out.println("[3] admin sign in.");
+            System.out.println("[4] exit.");
             short choice = scanner.nextShort();
             if (choice == 1) {
                 choice = signIn(system);
@@ -141,6 +148,8 @@ public class Main {
                 singUp(system);
                 continue;
             } else if (choice == 3) {
+                startAdmin(system);
+            } else if (choice == 4) {
                 return;
             } else {
                 System.out.println("Please provide a valid choice! ");
@@ -184,7 +193,7 @@ public class Main {
         scanner.nextLine();
         String licence = scanner.nextLine();
 
-        if (name == null || phone == null || address == null || nationality == null || licence == null){
+        if (name == null || phone == null || address == null || nationality == null || licence == null) {
             System.out.println("Please provide enough right information!");
             return;
         }
@@ -201,7 +210,7 @@ public class Main {
             System.out.println("[2] return a car. ");
             System.out.println("[3] print list of available cars.");
             System.out.println("[4] print list of available cars by date. ");
-            System.out.println("[] quit.");
+            System.out.println("[5] quit.");
 
             short choice = scanner.nextShort();
             switch (choice) {
@@ -294,6 +303,11 @@ public class Main {
                     System.out.println("|" + string.repeat(74) + "|");
 
                 }
+                case 5:
+                    return;
+                default:
+                    System.out.println("Please enter a valid choice! ");
+                    continue;
             }
 
 
@@ -320,6 +334,123 @@ public class Main {
         }
         return returnDate;
 
+    }
+
+    public static void startAdmin(FCarSystem system) {
+
+        while (true) {
+
+            System.out.println("Please choose what you want to do: ");
+            System.out.println("[1] add car.");
+            System.out.println("[2] delete car. ");
+            System.out.println("[3] delete rental by customer");
+            System.out.println("[4] find customer. ");
+            System.out.println("[5] delete customer. ");
+            System.out.println("[6] find car rental by customer ");
+            System.out.println("[7] add a payment to a specific rental.");
+            short choice = scanner.nextShort();
+
+            switch (choice) {
+                case 1: {
+                    System.out.println("Please enter the car's information here: ");
+                    System.out.println("Enter plate number: ");
+                    String plateNo = scanner.next();
+                    System.out.println("Enter car model: ");
+                    scanner.nextLine();
+                    String model = scanner.nextLine();
+                    System.out.println("Choose car's type: ");
+                    System.out.println("[1] SEDAN.");
+                    System.out.println("[2] SUV. ");
+                    System.out.println("[3] VAN. ");
+                    System.out.println("[4] TRUCK. ");
+                    choice = scanner.nextShort();
+                    CarType type;
+                    switch (choice) {
+                        case 1:
+                            type = CarType.SEDAN;
+                            break;
+                        case 2:
+                            type = CarType.SUV;
+                            break;
+                        case 3:
+                            type = CarType.VAN;
+                            break;
+                        case 4:
+                            type = CarType.TRUCK;
+                            break;
+                        default:
+                            System.out.println("Invalid car type please try again!");
+                            continue;
+                    }
+                    System.out.println("Enter daily rental rate for the car: ");
+                    double dailyRate = scanner.nextDouble();
+                    if (plateNo == null || model == null || dailyRate == 0) {
+                        System.out.println("Please provide enough information!");
+                        continue;
+                    }
+                    system.addCar(new Car(plateNo, model, type));
+                    break;
+                }
+                case 2: {
+                    system.printCars();
+                    System.out.println("TAKE CARE DELETING A CAR WILL DELETE ALL RENTALS ASSOCIATED WITH IT!!");
+                    System.out.println("Please enter the no of the car you want to delete: enter -1 if you want to return");
+                    choice = scanner.nextShort();
+                    if (choice == -1) {
+                        continue;
+                    }
+                    if (choice < 1 || choice > system.getCars().size()) {
+                        System.out.println("out of pounds number please try again!");
+                        continue;
+                    }
+                    system.deleteCar(system.getCars().get(choice).getPlateNo());
+                    break;
+                }
+                case 3: {
+                    System.out.println("Please enter the id of the customer to delete his rentals: ");
+                    int id = scanner.nextInt();
+                    System.out.println(system.deleteCarRental(id));
+                    break;
+                }
+
+                case 4: {
+                    System.out.println("Please enter the id for the customer you are searching for: ");
+                    int id = scanner.nextInt();
+                    Customer customer = system.findCustomer(id);
+                    if (customer != null){
+                        System.out.println();
+                    }
+                    break;
+                }
+                case 5: {
+                    System.out.println("Please enter the id of the customer you want to delete: ");
+                    system.deleteCustomer(scanner.nextInt());
+
+                    break;
+                }
+                case 6:{
+                    System.out.println("Please enter the id for the customer to print his active rentals: ");
+                    int id = scanner.nextInt();
+                    List<Rental> rentals = system.findCarRentalByCustomerId(id);
+                    System.out.printf("%3s|%20s|%15s|%15s|%15s|%10s|%10s|\n",
+                            "no", "Customer name", "Customer id", "Car plate no", "Car model", "start date", "end date");
+                    for (Rental rental: rentals){
+                        System.out.printf("%3d|%20s|%15d|%15s|%15s|%10s|%10s|\n",
+                                rental.getRentalNo(),
+                                rental.getCustomer().getName(),
+                                rental.getCustomer().getCustomerId(),
+                                rental.getCar().getPlateNo(),
+                                rental.getCar().getModel(),
+                                rental.getStartDate(),
+                                rental.getEndDate());
+                    }
+                }
+                case 7:{
+                    System.out.println("");
+                }
+
+            }
+        }
     }
 
 }

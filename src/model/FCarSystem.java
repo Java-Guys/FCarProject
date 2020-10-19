@@ -122,7 +122,7 @@ public class FCarSystem {
                     }
                 }
                 cars.remove(i);
-                return "Deleted Car successfully";
+                return "Deleted Car and it's rentals successfully";
             }
         }
         return "Couldn't find a car with this plate number! ";
@@ -165,6 +165,12 @@ public class FCarSystem {
      * @return message
      */
     public String deleteCustomer(int customerId) {
+        for (int i = 0; i < getRentals().size(); i++){
+            if (rentals.get(i).getCustomer().getCustomerId() == customerId){
+                return "Can't delete this customer. there are rentals associated with him please finish these rentals first!";
+
+            }
+        }
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getCustomerId() == customerId) {
                 customers.remove(i);

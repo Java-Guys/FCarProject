@@ -32,7 +32,7 @@ public class Car {
         this.model = model;
         this.isAvailable = true;
         this.type = type;
-        this.dailyRentalRate = dailyRentalRate;
+        setDailyRentalRate(dailyRentalRate);
     }
 
     public double getDailyRentalRate() {
@@ -40,6 +40,10 @@ public class Car {
     }
 
     public void setDailyRentalRate(double dailyRentalRate) {
+        if (dailyRentalRate < 0){
+            System.out.println("Invalid negative daily rental rate!");
+            return;
+        }
         this.dailyRentalRate = dailyRentalRate;
     }
 
