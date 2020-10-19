@@ -12,9 +12,9 @@ import java.util.List;
  */
 
 public class FCarSystem {
-    private ArrayList<Customer> customers;
-    private ArrayList<Car> cars;
-    private ArrayList<Rental> rentals;
+    private List<Customer> customers;
+    private List<Car> cars;
+    private List<Rental> rentals;
 
     public FCarSystem() {
         customers = new ArrayList<>();
@@ -27,9 +27,9 @@ public class FCarSystem {
      * @param cars
      * @param rentals
      */
-    public FCarSystem(ArrayList<Customer> customers,
-                      ArrayList<Car> cars,
-                      ArrayList<Rental> rentals) {
+    public FCarSystem(List<Customer> customers,
+                      List<Car> cars,
+                      List<Rental> rentals) {
         this.customers = customers;
         this.cars = cars;
         this.rentals = rentals;
@@ -38,7 +38,7 @@ public class FCarSystem {
     /**
      * @return customers
      */
-    public ArrayList<Customer> getCustomers() {
+    public List<Customer> getCustomers() {
         return customers;
     }
 
@@ -52,7 +52,7 @@ public class FCarSystem {
     /**
      * @return cars
      */
-    public ArrayList<Car> getCars() {
+    public List<Car> getCars() {
         return cars;
     }
 
@@ -66,7 +66,7 @@ public class FCarSystem {
     /**
      * @return rentals
      */
-    public ArrayList<Rental> getRentals() {
+    public List<Rental> getRentals() {
         return rentals;
     }
 
@@ -83,6 +83,9 @@ public class FCarSystem {
      * @return message
      */
     public String addCar(Car car) {
+        if(car == null){
+            return "cannot add null";
+        }
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).getPlateNo() == car.getPlateNo()) {
                 return "this car already exists";
@@ -113,12 +116,12 @@ public class FCarSystem {
     public String deleteCar(String plateNo) {
         for (int i = 0; i < cars.size(); i++) {
             if (cars.get(i).getPlateNo() == plateNo) {
-                cars.remove(i);
                 for (int j = 0; j < rentals.size(); j++) {
                     if (rentals.get(j).getCar().getPlateNo() == plateNo) {
                         rentals.remove(j);
                     }
                 }
+                cars.remove(i);
                 return "Deleted Car successfully";
             }
         }
@@ -130,6 +133,9 @@ public class FCarSystem {
      * @return message
      */
     public String addCustomer(Customer customer) {
+        if (customer == null){
+            return "cannot add null";
+        }
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).getCustomerId() == customer.getCustomerId()) {
                 return "this customer already exists!";
@@ -179,10 +185,10 @@ public class FCarSystem {
     }
 
     public String bookCarRental(Rental rental) {
-        if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null || rental.getEndDate() == null){
+        if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null || rental.getEndDate() == null) {
             return "Please provide a rental with enough information!";
         }
-        if (rental.getDeposit() < 2000){
+        if (rental.getDeposit() < 2000) {
             return "please deposit 2000QR or more to book a rental";
         }
 
@@ -192,18 +198,28 @@ public class FCarSystem {
                     return "Car is not available";
                 }
                 boolean customerExist = false;
-                for (Customer customer: customers){
-                    if (customer.getCustomerId() == rental.getCustomer().getCustomerId()){
-                        customerExist = true;
-                        break;
+                for (Customer customer : customers) {
+                    if (customer.getCustomerId() == rental.getCustomer().getCustomerId()) {
+                        car.setAvailable(false);
+                        rentals.add(rental);
+                        if (rental.getInvoice() == null){
+                            Invoice invoice = new Invoice();
+                            invoice.setInvoiceDate(LocalDate.now());
+
+                            rental.setInvoice(invoice);
+                        }
+                        int period = rental.getEndDate().getDayOfYear() - rental.getStartDate().getDayOfYear();
+                        Payment payment = new Payment();
+                        payment.setPaymentDescription("rental for " + period + " days");
+                        payment.setPrice(rental.getCar().getDailyRentalRate() * period);
+                        payment.setPaymentDate(LocalDate.now());  // user can change it later
+                        rental.getInvoice().addPayment(payment);
+
+                        return "Rental has been booked successfully";
                     }
                 }
-                if (!customerExist){
-                    return "Please add this customer to the list before booking a rental";
-                }
-                car.setAvailable(false);
-                rentals.add(rental);
-                return "Rental has been booked successfully";
+
+                return "Please add this customer to the list before booking a rental";
             }
         }
         return "Could't find a car with this information";
@@ -215,28 +231,29 @@ public class FCarSystem {
         for (Rental rental : rentals) {
             if (rental.getCar().getPlateNo().equals(plateNo)) {
                 activeRental = rental;
-                for (Car car: cars){
-                    if (car.getPlateNo().equals(activeRental.getCar().getPlateNo())){
+                for (Car car : cars) {
+                    if (car.getPlateNo().equals(activeRental.getCar().getPlateNo())) {
                         car.setAvailable(true);
                     }
                 }
                 double total = rental.getInvoice().calculateTotalPayment();
-                if (total > activeRental.getDeposit()){
-                    total =- activeRental.getDeposit();
+                if (total > activeRental.getDeposit()) {
+                    total -= activeRental.getDeposit();
                     activeRental.setDeposit(0);
                     System.out.println("You should pay QR" + total);
                     System.out.println("Your deposit has been spent");
-                }
-                else {
-                    activeRental.setDeposit(activeRental.getDeposit()-total);
-                    System.out.println("You should take back QR"+ activeRental.getDeposit());
+                } else {
+                    activeRental.setDeposit(activeRental.getDeposit() - total);
+                    System.out.println("You should take back QR" + activeRental.getDeposit());
+                    activeRental.setDeposit(0); //supposing customer has taken the remaining deposit
+
                 }
                 rentals.remove(activeRental);
                 return activeRental.getInvoice();
             }
         }
-            System.out.println("Couldn't find a rented car with this plate Number!");
-            return null;
+        System.out.println("Couldn't find a rented car with this plate Number!");
+        return null;
     }
 
     public List<Rental> findCarRentalByCustomerId(int customerId) {
@@ -280,6 +297,7 @@ public class FCarSystem {
                 for (Car car : cars) {
                     if (car.getPlateNo().equals(plateNo)) {
                         car.setAvailable(true);
+                        break;
                     }
                 }
                 rentals.remove(rental);
@@ -317,13 +335,14 @@ public class FCarSystem {
 
     //for testing purposes
     public void printCustomers() {
-        if (customers.size() < 1){
+        if (customers.size() < 1) {
             System.out.println("There are no customers in the list!");
             return;
         }
         String string = "_";
         System.out.println(string.repeat(112));
-        System.out.printf("|%10s|%20s|%15s|%25s|%15s|%20s|\n", "Id", "Name", "Phone number", "Address", "Nationality", "Driving Licence");
+        System.out.printf("|%10s|%20s|%15s|%25s|%15s|%20s|\n",
+                "Id", "Name", "Phone number", "Address", "Nationality", "Driving Licence");
         System.out.println("|" + string.repeat(110) + "|");
 
         for (var customer : customers) {
@@ -334,20 +353,21 @@ public class FCarSystem {
     }
 
     public void printCars() {
-        if (cars.size() < 1){
+        if (cars.size() < 1) {
             System.out.println("There are no cars in the list! ");
             return;
         }
         DecimalFormat qr = new DecimalFormat("QR#,##0.00");
         String string = "_";
         System.out.println(string.repeat(76));
-        System.out.printf("|%10s|%20s|%10s|%10s|%20s|\n", "plate No", "model", "available", "type", "daily rental rate");
+        System.out.printf("|%10s|%20s|%10s|%10s|%20s|\n",
+                "plate No", "model", "available", "type", "daily rental rate");
         System.out.println("|" + string.repeat(74) + "|");
 
         for (var car : cars) {
             System.out.println(car);
         }
-            System.out.println("|" + string.repeat(74) + "|");
+        System.out.println("|" + string.repeat(74) + "|");
     }
 
 }

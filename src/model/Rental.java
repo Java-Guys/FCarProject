@@ -154,16 +154,18 @@ public class Rental {
         this.invoice = invoice;
     }
 
+
+    //for testing purposes
     @Override
     public String toString() {
         return "Rental{" +
                 "rentalNo=" + rentalNo +
-                ", customer name=" + customer.getName() +
-                ", car plate no=" + car.getPlateNo() +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", deposit=" + deposit +
-                ", invoice=" + invoice +
+                "\ncustomer=" + customer.getName() +
+                "\ncar=" + car.getPlateNo() +
+                "\nstartDate=" + startDate +
+                "\nendDate=" + endDate +
+                "\ndeposit=" + deposit +
+                "\ninvoice=" + invoice +
                 '}';
     }
 }

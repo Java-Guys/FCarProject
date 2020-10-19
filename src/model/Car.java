@@ -27,10 +27,10 @@ public class Car {
 
     }
 
-    public Car(String plateNo, String model, boolean isAvailable, CarType type, double dailyRentalRate, double monthlyRentalRate) {
+    public Car(String plateNo, String model, CarType type, double dailyRentalRate) {
         this.plateNo = plateNo;
         this.model = model;
-        this.isAvailable = isAvailable;
+        this.isAvailable = true;
         this.type = type;
         this.dailyRentalRate = dailyRentalRate;
     }
