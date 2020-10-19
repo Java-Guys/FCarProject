@@ -185,7 +185,7 @@ public class FCarSystem {
     }
 
     public String bookCarRental(Rental rental) {
-        if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null || rental.getEndDate() == null) {
+        if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null ) {
             return "Please provide a rental with enough information!";
         }
         if (rental.getDeposit() < 2000) {
@@ -202,18 +202,6 @@ public class FCarSystem {
                     if (customer.getCustomerId() == rental.getCustomer().getCustomerId()) {
                         car.setAvailable(false);
                         rentals.add(rental);
-                        if (rental.getInvoice() == null){
-                            Invoice invoice = new Invoice();
-                            invoice.setInvoiceDate(LocalDate.now());
-
-                            rental.setInvoice(invoice);
-                        }
-                        int period = rental.getEndDate().getDayOfYear() - rental.getStartDate().getDayOfYear();
-                        Payment payment = new Payment();
-                        payment.setPaymentDescription("rental for " + period + " days");
-                        payment.setPrice(rental.getCar().getDailyRentalRate() * period);
-                        payment.setPaymentDate(LocalDate.now());  // user can change it later
-                        rental.getInvoice().addPayment(payment);
 
                         return "Rental has been booked successfully";
                     }
@@ -236,6 +224,22 @@ public class FCarSystem {
                         car.setAvailable(true);
                     }
                 }
+                rental.setEndDate(LocalDate.now());
+
+                //adding the rental payment to the invoice
+                if (rental.getInvoice() == null){
+                    Invoice invoice = new Invoice();
+                    invoice.setInvoiceDate(LocalDate.now());
+
+                    rental.setInvoice(invoice);
+                }
+                int period = rental.getEndDate().getDayOfYear() - rental.getStartDate().getDayOfYear();
+                Payment payment = new Payment();
+                payment.setPaymentDescription("rental for " + period + " days");
+                payment.setPrice(rental.getCar().getDailyRentalRate() * period);
+                payment.setPaymentDate(LocalDate.now());  // user can change it later
+                rental.getInvoice().addPayment(payment);
+
                 double total = rental.getInvoice().calculateTotalPayment();
                 if (total > activeRental.getDeposit()) {
                     total -= activeRental.getDeposit();
@@ -325,7 +329,7 @@ public class FCarSystem {
         }
 
         for (Rental rental : rentals) {
-            if (rental.getEndDate().isBefore(date)) {
+            if (rental.getEndDate() != null && rental.getEndDate().isBefore(date)) {
                 returnCars.add(rental.getCar());
             }
         }
@@ -335,20 +339,23 @@ public class FCarSystem {
 
     //for testing purposes
     public void printCustomers() {
+
         if (customers.size() < 1) {
             System.out.println("There are no customers in the list!");
             return;
         }
-        String string = "_";
-        System.out.println(string.repeat(112));
-        System.out.printf("|%10s|%20s|%15s|%25s|%15s|%20s|\n",
-                "Id", "Name", "Phone number", "Address", "Nationality", "Driving Licence");
-        System.out.println("|" + string.repeat(110) + "|");
 
-        for (var customer : customers) {
-            System.out.println(customer);
+
+        String string = "_";
+        System.out.println(string.repeat(115));
+        System.out.printf("No |%10s|%20s|%15s|%25s|%15s|%20s|\n",
+                "Id", "Name", "Phone number", "Address", "Nationality", "Driving Licence");
+        System.out.println("" + string.repeat(114) + "|");
+
+        for (int i = 0; i < getCustomers().size(); i++) {
+            System.out.printf("%3d%s\n",i+1,customers.get(i));
         }
-        System.out.println("|" + string.repeat(110) + "|");
+        System.out.println("" + string.repeat(114) + "|");
 
     }
 
@@ -359,15 +366,21 @@ public class FCarSystem {
         }
         DecimalFormat qr = new DecimalFormat("QR#,##0.00");
         String string = "_";
-        System.out.println(string.repeat(76));
-        System.out.printf("|%10s|%20s|%10s|%10s|%20s|\n",
+        System.out.println(string.repeat(81));
+        System.out.printf("No  |%10s|%20s|%10s|%10s|%20s|\n",
                 "plate No", "model", "available", "type", "daily rental rate");
-        System.out.println("|" + string.repeat(74) + "|");
+        System.out.println("" + string.repeat(79) + "|");
 
-        for (var car : cars) {
-            System.out.println(car);
+        for (int i = 0; i < getCars().size(); i++) {
+            System.out.printf("%4d%s\n",i+1, getCars().get(i));
         }
-        System.out.println("|" + string.repeat(74) + "|");
+        System.out.println("" + string.repeat(79) + "|");
+    }
+    public void printRentals(){
+        for (Rental rental: rentals){
+            System.out.println(rental);
+            System.out.println();
+        }
     }
 
 }
