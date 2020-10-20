@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author M-Hamdy-M
  * @author Omar Alkashef
+ * @author Ezeldin Ahmed
+ * @author Mahmoud Shreif
  * Creation Date : 14-10-2020
- * @version 1
+ * @version 3
  */
 
 public class FCarSystem {
@@ -180,6 +183,10 @@ public class FCarSystem {
         return "Couldn't find the Customer";
     }
 
+    /**
+     * @param available
+     * @return returnCars
+     */
     public List<Car> getCarByAvailability(boolean available) {
         List<Car> returnCars = new ArrayList<>();
         for (Car car : cars) {
@@ -190,6 +197,10 @@ public class FCarSystem {
         return returnCars;
     }
 
+    /**
+     * @param rental
+     * @return message
+     */
     public String bookCarRental(Rental rental) {
         if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null ) {
             return "Please provide a rental with enough information!";
@@ -219,6 +230,10 @@ public class FCarSystem {
         return "Could't find a car with this information";
     }
 
+    /**
+     * @param plateNo
+     * @return Invoice
+     */
     public Invoice returnCar(String plateNo) {
         Rental activeRental = new Rental();
 
@@ -266,6 +281,10 @@ public class FCarSystem {
         return null;
     }
 
+    /**
+     * @param customerId
+     * @return returnRentals
+     */
     public List<Rental> findCarRentalByCustomerId(int customerId) {
         boolean customerExist = false;
         for (Customer customer : customers) {
@@ -288,6 +307,10 @@ public class FCarSystem {
         return returnRentals;
     }
 
+    /**
+     * @param customerId
+     * @return message
+     */
     public String deleteCarRental(int customerId) {
         boolean customerExist = false;
         for (Customer customer : customers) {
@@ -325,6 +348,10 @@ public class FCarSystem {
 
     }
 
+    /**
+     * @param date
+     * @return returnCars
+     */
     public List<Car> getAvailableCarByDate(LocalDate date) {
         List<Car> returnCars = new ArrayList<>();
 
@@ -343,6 +370,9 @@ public class FCarSystem {
     }
 
 
+    /**
+     * print list of customers (for testing purposes)
+     */
     //for testing purposes
     public void printCustomers() {
 
@@ -365,6 +395,9 @@ public class FCarSystem {
 
     }
 
+    /**
+     * print list of Cars(for testing purposes)
+     */
     public void printCars() {
         if (cars.size() < 1) {
             System.out.println("There are no cars in the list! ");
@@ -382,6 +415,10 @@ public class FCarSystem {
         }
         System.out.println("" + string.repeat(79) + "|");
     }
+
+    /**
+     * print list of rentals(for testing purposes)
+     */
     public void printRentals(){
         for (Rental rental: rentals){
             System.out.println(rental);
