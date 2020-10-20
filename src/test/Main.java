@@ -148,7 +148,9 @@ public class Main {
                 singUp(system);
                 continue;
             } else if (choice == 3) {
-                startAdmin(system);
+                if (startAdmin(system)){
+                    return;
+                }
             } else if (choice == 4) {
                 return;
             } else {
@@ -336,8 +338,8 @@ public class Main {
 
     }
 
-    public static void startAdmin(FCarSystem system) {
-
+    public static boolean startAdmin(FCarSystem system) {
+        boolean exit = true;
         while (true) {
 
             System.out.println("Please choose what you want to do: ");
@@ -348,6 +350,7 @@ public class Main {
             System.out.println("[5] delete customer. ");
             System.out.println("[6] find car rental by customer ");
             System.out.println("[7] add a payment to a specific rental.");
+            System.out.println("[8] back to the main menu. ");
             short choice = scanner.nextShort();
 
             switch (choice) {
@@ -448,8 +451,13 @@ public class Main {
                 case 7:{
                     System.out.println("");
                 }
+                case 8:{
+                    exit = false;
+                    break;
+                }
 
             }
+            return exit;
         }
     }
 
