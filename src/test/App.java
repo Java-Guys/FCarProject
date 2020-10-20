@@ -1,9 +1,16 @@
 package test;
 
 import model.*;
-
 import java.time.LocalDate;
 
+/**
+ * @author M-Hamdy-M
+ * @author Omar Alkashef
+ * @author Ezeldin Ahmed
+ * @author Mahmoud Shreif
+ * Creation Date : 18-10-2020
+ * @version 2
+ */
 public class App {
     public static void main(String[] args) {
 
@@ -216,18 +223,5 @@ public class App {
 
         System.out.println(system.returnCar("5884469"));
         System.out.println(system.returnCar("510509"));
-
-
-//        Rental rental2 = new Rental(customer2,
-//                system.findCar("6549098"),
-//                LocalDate.of(2020,11,20),
-//                LocalDate.of(2020,11,30),
-//                2000,
-//                new Invoice());
-//        system.bookCarRental(rental2);
-//        System.out.println(system.deleteCarRental(customer2.getCustomerId()));
-
-
-
     }
 }

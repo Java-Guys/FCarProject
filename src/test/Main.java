@@ -38,7 +38,7 @@ public class Main {
 
         Customer customer2 = new Customer(957168429,
                 "Mahmoud Talkhan",
-                "55164672",
+                "57489638",
                 "south khalifa",
                 "Egyptian",
                 "driving licence");
@@ -57,7 +57,7 @@ public class Main {
                 "Hindi",
                 "driving licence");
 
-        Customer customer5 = new Customer(356876876,
+        Customer customer5 = new Customer(951784953,
                 "Mohamed Akram",
                 "55555555",
                 "doha",
@@ -115,7 +115,7 @@ public class Main {
                 "7755098",
                 "Honda city",
                 CarType.SEDAN,
-                2000000)));
+                100)));
 
         System.out.println(system.addCar(new Car(
                 "6549098",
@@ -148,7 +148,7 @@ public class Main {
                 singUp(system);
                 continue;
             } else if (choice == 3) {
-                if (startAdmin(system)){
+                if (startAdmin(system)) {
                     return;
                 }
             } else if (choice == 4) {
@@ -303,6 +303,7 @@ public class Main {
                         System.out.println(car);
                     }
                     System.out.println("|" + string.repeat(74) + "|");
+                    break;
 
                 }
                 case 5:
@@ -349,8 +350,7 @@ public class Main {
             System.out.println("[4] find customer. ");
             System.out.println("[5] delete customer. ");
             System.out.println("[6] find car rental by customer ");
-            System.out.println("[7] add a payment to a specific rental.");
-            System.out.println("[8] back to the main menu. ");
+            System.out.println("[7] back to the main menu. ");
             short choice = scanner.nextShort();
 
             switch (choice) {
@@ -387,12 +387,13 @@ public class Main {
                     }
                     System.out.println("Enter daily rental rate for the car: ");
                     double dailyRate = scanner.nextDouble();
-                    if (plateNo == null || model == null || dailyRate == 0) {
+                    Car car = new Car(plateNo, model, type, dailyRate);
+                    if (car.getPlateNo() == null || car.getModel() == null || car.getDailyRentalRate() == 0) {
                         System.out.println("Please provide enough information!");
                         continue;
                     }
-                    system.addCar(new Car(plateNo, model, type));
-                    break;
+                    System.out.println(system.addCar(car));
+                    continue;
                 }
                 case 2: {
                     system.printCars();
@@ -406,52 +407,99 @@ public class Main {
                         System.out.println("out of pounds number please try again!");
                         continue;
                     }
-                    system.deleteCar(system.getCars().get(choice).getPlateNo());
-                    break;
+                    System.out.println(system.deleteCar(system.getCars().get(choice - 1).getPlateNo()));
+                    continue;
                 }
                 case 3: {
                     System.out.println("Please enter the id of the customer to delete his rentals: ");
                     int id = scanner.nextInt();
                     System.out.println(system.deleteCarRental(id));
-                    break;
+                    continue;
                 }
 
                 case 4: {
                     System.out.println("Please enter the id for the customer you are searching for: ");
                     int id = scanner.nextInt();
                     Customer customer = system.findCustomer(id);
-                    if (customer != null){
-                        System.out.println();
+                    if (customer != null) {
+                        System.out.println("Here is the customer's information: ");
+                        System.out.println(customer);
                     }
-                    break;
+                    continue;
                 }
                 case 5: {
                     System.out.println("Please enter the id of the customer you want to delete: ");
-                    system.deleteCustomer(scanner.nextInt());
+                    System.out.println(system.deleteCustomer(scanner.nextInt()));
 
-                    break;
+                    continue;
                 }
-                case 6:{
+                case 6: {
                     System.out.println("Please enter the id for the customer to print his active rentals: ");
                     int id = scanner.nextInt();
                     List<Rental> rentals = system.findCarRentalByCustomerId(id);
-                    System.out.printf("%3s|%20s|%15s|%15s|%15s|%10s|%10s|\n",
-                            "no", "Customer name", "Customer id", "Car plate no", "Car model", "start date", "end date");
-                    for (Rental rental: rentals){
-                        System.out.printf("%3d|%20s|%15d|%15s|%15s|%10s|%10s|\n",
-                                rental.getRentalNo(),
-                                rental.getCustomer().getName(),
-                                rental.getCustomer().getCustomerId(),
-                                rental.getCar().getPlateNo(),
-                                rental.getCar().getModel(),
-                                rental.getStartDate(),
-                                rental.getEndDate());
+                    if (rentals != null) {
+                        if (rentals.size() < 1) {
+                            System.out.println("No rentals associated with this customer! ");
+                            continue;
+                        }
+                        System.out.printf("%3s|%20s|%15s|%15s|%15s|%10s|%10s|\n",
+                                "no", "Customer name", "Customer id", "Car plate no", "Car model", "start date", "end date");
+                        for (Rental rental : rentals) {
+                            System.out.printf("%3d|%20s|%15d|%15s|%15s|%10s|%10s|\n",
+                                    rental.getRentalNo(),
+                                    rental.getCustomer().getName(),
+                                    rental.getCustomer().getCustomerId(),
+                                    rental.getCar().getPlateNo(),
+                                    rental.getCar().getModel(),
+                                    rental.getStartDate(),
+                                    rental.getEndDate());
+
+                            System.out.println("Do you want to add payment to any of these rentals? (yes=1,no=2)");
+                            choice = scanner.nextShort();
+                            boolean rentalExist = false;
+                            if (choice == 2) {
+                                continue;
+                            }
+                            if (choice != 1) {
+                                System.out.println("Invalid choice!");
+                                continue;
+                            }
+                            if (rentals.size() == 1) {
+                                id = rentals.get(0).getRentalNo();
+                            } else {
+                                System.out.println("Please enter rental number: ");
+                                id = scanner.nextInt();
+                                for (Rental rental1: rentals){
+                                    if (rental1.getRentalNo() == id) {
+                                        rentalExist = true;
+                                        break;
+                                    }
+                                }
+                                if (!rentalExist) {
+                                    System.out.println("No rental with this no please try again!");
+                                    continue;
+                                }
+                            }
+                            System.out.println("Enter payment description: ");
+                            scanner.nextLine();
+                            String desc = scanner.nextLine();
+                            System.out.println("Enter payment price: ");
+                            double price = scanner.nextDouble();
+                            System.out.println("Enter payment date: ");
+                            LocalDate date = takeDate();
+                            for (Rental rental1: rentals){
+                                if (rental1.getRentalNo() == id){
+                                    System.out.println(rental1.getInvoice().addPayment(new Payment(desc, price, date)));
+
+                                }
+                            }
+                        }
                     }
+
+                    continue;
                 }
-                case 7:{
-                    System.out.println("");
-                }
-                case 8:{
+
+                case 7: {
                     exit = false;
                     break;
                 }

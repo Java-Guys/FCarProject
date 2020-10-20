@@ -86,7 +86,7 @@ public class FCarSystem {
      * @return message
      */
     public String addCar(Car car) {
-        if(car == null){
+        if (car == null) {
             return "cannot add null";
         }
         for (int i = 0; i < cars.size(); i++) {
@@ -136,7 +136,7 @@ public class FCarSystem {
      * @return message
      */
     public String addCustomer(Customer customer) {
-        if (customer == null){
+        if (customer == null) {
             return "cannot add null";
         }
         for (int i = 0; i < customers.size(); i++) {
@@ -168,8 +168,8 @@ public class FCarSystem {
      * @return message
      */
     public String deleteCustomer(int customerId) {
-        for (int i = 0; i < getRentals().size(); i++){
-            if (rentals.get(i).getCustomer().getCustomerId() == customerId){
+        for (int i = 0; i < getRentals().size(); i++) {
+            if (rentals.get(i).getCustomer().getCustomerId() == customerId) {
                 return "Can't delete this customer. there are rentals associated with him please finish these rentals first!";
 
             }
@@ -180,7 +180,7 @@ public class FCarSystem {
                 return "Delete Customer successfully";
             }
         }
-        return "Couldn't find the Customer";
+        return "Couldn't a customer with this id. ";
     }
 
     /**
@@ -202,7 +202,7 @@ public class FCarSystem {
      * @return message
      */
     public String bookCarRental(Rental rental) {
-        if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null ) {
+        if (rental.getCustomer() == null || rental.getCar() == null || rental.getStartDate() == null) {
             return "Please provide a rental with enough information!";
         }
         if (rental.getDeposit() < 2000) {
@@ -248,7 +248,7 @@ public class FCarSystem {
                 rental.setEndDate(LocalDate.now());
 
                 //adding the rental payment to the invoice
-                if (rental.getInvoice() == null){
+                if (rental.getInvoice() == null) {
                     Invoice invoice = new Invoice();
                     invoice.setInvoiceDate(LocalDate.now());
 
@@ -324,16 +324,16 @@ public class FCarSystem {
             return null;
         }
         int counter = 0;
-        for (Rental rental : rentals) {
-            if (rental.getCustomer().getCustomerId() == customerId) {
-                String plateNo = rental.getCar().getPlateNo();
+        for (int i = 0; i < rentals.size(); i++) {
+            if (rentals.get(i).getCustomer().getCustomerId() == customerId) {
+                String plateNo = rentals.get(i).getCar().getPlateNo();
                 for (Car car : cars) {
                     if (car.getPlateNo().equals(plateNo)) {
                         car.setAvailable(true);
                         break;
                     }
                 }
-                rentals.remove(rental);
+                rentals.remove(i);
                 counter++;
             }
         }
@@ -389,7 +389,7 @@ public class FCarSystem {
         System.out.println("" + string.repeat(114) + "|");
 
         for (int i = 0; i < getCustomers().size(); i++) {
-            System.out.printf("%3d%s\n",i+1,customers.get(i));
+            System.out.printf("%3d%s\n", i + 1, customers.get(i));
         }
         System.out.println("" + string.repeat(114) + "|");
 
@@ -411,7 +411,7 @@ public class FCarSystem {
         System.out.println("" + string.repeat(79) + "|");
 
         for (int i = 0; i < getCars().size(); i++) {
-            System.out.printf("%4d%s\n",i+1, getCars().get(i));
+            System.out.printf("%4d%s\n", i + 1, getCars().get(i));
         }
         System.out.println("" + string.repeat(79) + "|");
     }
@@ -419,11 +419,10 @@ public class FCarSystem {
     /**
      * print list of rentals(for testing purposes)
      */
-    public void printRentals(){
-        for (Rental rental: rentals){
+    public void printRentals() {
+        for (Rental rental : rentals) {
             System.out.println(rental);
             System.out.println();
         }
     }
-
 }
