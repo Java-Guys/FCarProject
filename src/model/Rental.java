@@ -19,8 +19,8 @@ public class Rental {
     private double deposit;
     private Invoice invoice;
 
-
     public Rental() {
+        invoice = new Invoice();
         this.rentalNo = ++rentalNoCounter;
     }
 
