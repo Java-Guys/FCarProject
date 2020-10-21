@@ -141,7 +141,6 @@ public class Main {
                 if (choice == -1) {
                     continue;
                 } else {
-                    System.out.println("started");
                     start(system, choice);
                 }
             } else if (choice == 2) {
@@ -271,7 +270,6 @@ public class Main {
                             continue;
                         }
                         system.returnCar(system.getCars().get(choice - 1).getPlateNo());
-                        system.printRentals();
                         break;
                     }
                     break;
@@ -350,7 +348,8 @@ public class Main {
             System.out.println("[4] find customer. ");
             System.out.println("[5] delete customer. ");
             System.out.println("[6] find car rental by customer ");
-            System.out.println("[7] back to the main menu. ");
+            System.out.println("[7] print total income. ");
+            System.out.println("[8] back to the main menu. ");
             short choice = scanner.nextShort();
 
             switch (choice) {
@@ -498,8 +497,12 @@ public class Main {
 
                     continue;
                 }
+                case 7:{
+                    system.printTotalIncome();
+                    continue;
+                }
 
-                case 7: {
+                case 8: {
                     exit = false;
                     break;
                 }

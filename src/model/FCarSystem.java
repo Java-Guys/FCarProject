@@ -18,6 +18,7 @@ public class FCarSystem {
     private List<Customer> customers;
     private List<Car> cars;
     private List<Rental> rentals;
+    private double totalIncome;
 
     public FCarSystem() {
         customers = new ArrayList<>();
@@ -262,6 +263,7 @@ public class FCarSystem {
                 rental.getInvoice().addPayment(payment);
 
                 double total = rental.getInvoice().calculateTotalPayment();
+                totalIncome += total;
                 if (total > activeRental.getDeposit()) {
                     total -= activeRental.getDeposit();
                     activeRental.setDeposit(0);
@@ -424,5 +426,10 @@ public class FCarSystem {
             System.out.println(rental);
             System.out.println();
         }
+    }
+
+    public void printTotalIncome(){
+        System.out.println("The company's total income till now is: ");
+        System.out.println(totalIncome);
     }
 }
