@@ -7,8 +7,19 @@ package model;
  *
  */
 public enum CarType {
-    SEDAN,
-    SUV,
-    VAN,
-    TRUCK;
+    SEDAN("sedan"),
+    SUV("suv"),
+    VAN("van"),
+    TRUCK("truck");
+
+    private String label;
+
+    private CarType(String label){
+        this.label = label;
+    }
+    public String toString(){
+        return label;
+    }
+
+
 }

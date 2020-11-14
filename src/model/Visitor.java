@@ -9,7 +9,8 @@ import java.time.LocalDate;
  * version : 1
  */
 public class Visitor extends Customer {
-    private int passportNo;
+
+    protected int passportNo;
     private LocalDate entryDate;
     private LocalDate visaExpiryDate;
 
@@ -45,6 +46,7 @@ public class Visitor extends Customer {
     /**
      * @return passportNo
      */
+
     public int getPassportNo() {
         return passportNo;
     }
@@ -66,6 +68,7 @@ public class Visitor extends Customer {
     /**
      * @param entryDate
      */
+
     public void setEntryDate(LocalDate entryDate) {
         this.entryDate = entryDate;
     }
@@ -82,5 +85,10 @@ public class Visitor extends Customer {
      */
     public void setVisaExpiryDate(LocalDate visaExpiryDate) {
         this.visaExpiryDate = visaExpiryDate;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + entryDate + " | " + visaExpiryDate + " | " + passportNo;
     }
 }

@@ -15,8 +15,17 @@ public class Car {
     private CarType type;
     private double dailyRentalRate;
 
+
     public Car() {
         this.isAvailable = true;
+    }
+
+    public Car(String plateNo, String model, boolean isAvailable, CarType type, double dailyRentalRate) {
+        this.plateNo = plateNo;
+        this.model = model;
+        this.isAvailable = isAvailable;
+        this.type = type;
+        this.dailyRentalRate = dailyRentalRate;
     }
 
     public Car(String plateNo, String model, CarType type) {
@@ -40,7 +49,7 @@ public class Car {
     }
 
     public void setDailyRentalRate(double dailyRentalRate) {
-        if (dailyRentalRate < 0){
+        if (dailyRentalRate < 0) {
             System.out.println("Invalid negative daily rental rate!");
             return;
         }
@@ -63,7 +72,7 @@ public class Car {
         this.model = model;
     }
 
-    public boolean isAvailable() {
+    public boolean getIsAvailable() {
         return isAvailable;
     }
 
@@ -86,6 +95,6 @@ public class Car {
     @Override
     public String toString() {
         DecimalFormat qr = new DecimalFormat("QR#,##0.00");
-        return String.format("|%10s|%20s|%10s|%10s|%20s|", getPlateNo(), getModel(), isAvailable(),getType(), qr.format(getDailyRentalRate()));
+        return String.format("|%10s|%20s|%10s|%10s|%20s|", getPlateNo(), getModel(), getIsAvailable(), getType(), qr.format(getDailyRentalRate()));
     }
 }

@@ -23,7 +23,7 @@ public class Customer {
      * @param nationality
      * @param drivingLicence
      */
-    public Customer(int customerId,
+     public  Customer(int customerId,
                     String name,
                     String phone,
                     String address,

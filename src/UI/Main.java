@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Data;
 
 public class Main extends Application {
 
@@ -19,6 +20,11 @@ public class Main extends Application {
 
     }
     public static void main(String[] args){
+        Data.getInstance().loadVisitors();
+        Data.getInstance().loadCars();
+        Data.getInstance().loadRentals();
+
+
         launch(args);
     }
 }

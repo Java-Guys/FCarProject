@@ -1,5 +1,8 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,15 +18,18 @@ import java.util.List;
  */
 
 public class FCarSystem {
-    private List<Customer> customers;
-    private List<Car> cars;
-    private List<Rental> rentals;
+    private ObservableList<Customer> customers;
+    private ObservableList<Car> cars;
+    private ObservableList<Rental> rentals;
     private double totalIncome;
+    private ObservableList<Visitor> visitors;
+
 
     public FCarSystem() {
-        customers = new ArrayList<>();
-        cars = new ArrayList<>();
-        rentals = new ArrayList<>();
+        customers = FXCollections.observableArrayList();
+        cars = FXCollections.observableArrayList();
+        rentals = FXCollections.observableArrayList();
+        visitors = FXCollections.observableArrayList();
     }
 
     /**
@@ -31,9 +37,9 @@ public class FCarSystem {
      * @param cars
      * @param rentals
      */
-    public FCarSystem(List<Customer> customers,
-                      List<Car> cars,
-                      List<Rental> rentals) {
+    public FCarSystem(ObservableList<Customer> customers,
+                      ObservableList<Car> cars,
+                      ObservableList<Rental> rentals) {
         this.customers = customers;
         this.cars = cars;
         this.rentals = rentals;
@@ -42,46 +48,66 @@ public class FCarSystem {
     /**
      * @return customers
      */
-    public List<Customer> getCustomers() {
+    public ObservableList<Customer> getCustomers() {
         return customers;
     }
 
     /**
      * @param customers
      */
-    public void setCustomers(ArrayList<Customer> customers) {
+    public void setCustomers(ObservableList<Customer> customers) {
         this.customers = customers;
     }
 
     /**
      * @return cars
      */
-    public List<Car> getCars() {
+    public ObservableList<Car> getCars() {
         return cars;
     }
 
     /**
      * @param cars
      */
-    public void setCars(ArrayList<Car> cars) {
+    public void setCars(ObservableList<Car> cars) {
         this.cars = cars;
     }
 
     /**
      * @return rentals
      */
-    public List<Rental> getRentals() {
+    public ObservableList<Rental> getRentals() {
         return rentals;
     }
 
     /**
      * @param rentals
      */
-    public void setRentals(ArrayList<Rental> rentals) {
+    public void setRentals(ObservableList<Rental> rentals) {
         this.rentals = rentals;
     }
 
+    public void setVisitors(ObservableList<Visitor> visitors) {
+        this.visitors = visitors;
+    }
 
+    public ObservableList<Visitor> getVisitors() {
+        return visitors;
+    }
+
+    public String addVisitor(Visitor visitor){
+        if (visitor == null) {
+            return "cannot add null";
+        }
+        for (int i = 0; i < visitors.size(); i++) {
+            if (visitors.get(i).getCustomerId() == visitor.getCustomerId()) {
+                return "this visitor already exists!";
+            }
+
+        }
+        visitors.add(visitor);
+        return "Added visitor successfully";
+    }
     /**
      * @param car
      * @return message
@@ -191,7 +217,7 @@ public class FCarSystem {
     public List<Car> getCarByAvailability(boolean available) {
         List<Car> returnCars = new ArrayList<>();
         for (Car car : cars) {
-            if (car.isAvailable() == available) {
+            if (car.getIsAvailable() == available) {
                 returnCars.add(car);
             }
         }
@@ -212,7 +238,7 @@ public class FCarSystem {
 
         for (Car car : cars) {
             if (car.getPlateNo().equals(rental.getCar().getPlateNo())) {
-                if (!car.isAvailable()) {
+                if (!car.getIsAvailable()) {
                     return "Car is not available";
                 }
                 boolean customerExist = false;
@@ -358,7 +384,7 @@ public class FCarSystem {
         List<Car> returnCars = new ArrayList<>();
 
         for (Car car : cars) {
-            if (car.isAvailable()) {
+            if (car.getIsAvailable()) {
                 returnCars.add(car);
             }
         }
@@ -428,8 +454,10 @@ public class FCarSystem {
         }
     }
 
-    public void printTotalIncome(){
+    public void printTotalIncome() {
         System.out.println("The company's total income till now is: ");
         System.out.println(totalIncome);
     }
+
+
 }
