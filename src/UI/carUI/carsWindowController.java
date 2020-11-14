@@ -118,10 +118,17 @@ public class carsWindowController {
 
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
             AddCarController controller = loader.getController();
-            Car newCar = controller.processResult();
-            Data.getInstance().getSystem().getCars().set(Data.getInstance().getSystem().getCars().indexOf(selectedCar), newCar);
+            try {
+                Car newCar = controller.processResult();
+                Data.getInstance().getSystem().getCars().set(Data.getInstance().getSystem().getCars().indexOf(selectedCar), newCar);
+            } catch (IllegalArgumentException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR,
+                        e.getMessage(),
+                        ButtonType.OK);
+                alert.showAndWait();
+            }
+
         }
 
         System.out.println(selectedCar.toString());
