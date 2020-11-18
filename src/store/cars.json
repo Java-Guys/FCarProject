@@ -23,9 +23,9 @@
   {
     "plateNo": "632594",
     "model": "toyota-prado",
-    "isAvailable": true,
+    "isAvailable": false,
     "type": "SUV",
-    "dailyRentalRate": 300.0
+    "dailyRentalRate": 350.0
   },
   {
     "plateNo": "216894",

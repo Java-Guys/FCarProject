@@ -41,7 +41,7 @@ public class carsWindowController {
         availabilityColumn.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("isAvailable"));
         dailyRentalRateColumn.setCellValueFactory(new PropertyValueFactory<Car, Double>("dailyRentalRate"));
 //        carsTable.getItems().setAll(Parse)
-        carsTable.setItems(Data.getInstance().getCars());
+        carsTable.setItems(Data.getInstance().getSystem().getCars());
     }
 
     @FXML

@@ -131,7 +131,7 @@ public class FCarSystem {
      */
     public Car findCar(String plateNo) {
         for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).getPlateNo() == plateNo) {
+            if (cars.get(i).getPlateNo().equals(plateNo)) {
                 return cars.get(i);
             }
         }
@@ -214,8 +214,8 @@ public class FCarSystem {
      * @param available
      * @return returnCars
      */
-    public List<Car> getCarByAvailability(boolean available) {
-        List<Car> returnCars = new ArrayList<>();
+    public ObservableList<Car> getCarByAvailability(boolean available) {
+        ObservableList<Car> returnCars = FXCollections.observableArrayList();
         for (Car car : cars) {
             if (car.getIsAvailable() == available) {
                 returnCars.add(car);
@@ -380,8 +380,8 @@ public class FCarSystem {
      * @param date
      * @return returnCars
      */
-    public List<Car> getAvailableCarByDate(LocalDate date) {
-        List<Car> returnCars = new ArrayList<>();
+    public ObservableList<Car> getAvailableCarByDate(LocalDate date) {
+        ObservableList<Car> returnCars = FXCollections.observableArrayList();
 
         for (Car car : cars) {
             if (car.getIsAvailable()) {

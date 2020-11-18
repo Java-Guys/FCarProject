@@ -1,5 +1,189 @@
 package UI.customerUI;
 
+import UI.carUI.AddCarController;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import model.*;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Optional;
 
 public class customersWindowController {
+
+    @FXML
+    private VBox customersWindow;
+    @FXML
+    private TableView<Visitor> visitorsTable;
+    @FXML
+    private TableColumn<Visitor, Integer> idColumn;
+    @FXML
+    private TableColumn<Visitor, String> nameColumn;
+    @FXML
+    private TableColumn<Visitor, String> phoneColumn;
+    @FXML
+    private TableColumn<Visitor, String> addressColumn;
+    @FXML
+    private TableColumn<Visitor, String> nationalityColumn;
+    @FXML
+    private TableColumn<Visitor, Integer> passportColumn;
+    @FXML
+    private TableColumn<Visitor, String> licenceColumn;
+    @FXML
+    private TableColumn<Visitor, LocalDate> entryDateColumn;
+    @FXML
+    private TableColumn<Visitor, LocalDate> expiryDateColumn;
+
+
+    public void initialize() {
+        idColumn.setCellValueFactory(new PropertyValueFactory<Visitor, Integer>("customerId"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("name"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("phone"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("address"));
+        nationalityColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("nationality"));
+        licenceColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("drivingLicence"));
+        passportColumn.setCellValueFactory(new PropertyValueFactory<Visitor, Integer>("passportNo"));
+        entryDateColumn.setCellValueFactory(new PropertyValueFactory<Visitor, LocalDate>("entryDate"));
+        expiryDateColumn.setCellValueFactory(new PropertyValueFactory<Visitor, LocalDate>("visaExpiryDate"));
+
+        visitorsTable.setItems(Data.getInstance().getVisitors());
+//        customersTable.setItems(Data.getInstance().getSystem().getCustomers());
+    }
+
+    @FXML
+    public void addCar() {
+        Car car = new Car("new plate no", "new model", CarType.SEDAN, 6000);
+        Data.getInstance().getSystem().addCar(car);
+    }
+
+    @FXML
+    public void showAddCustomerDialog() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(customersWindow.getScene().getWindow());
+        dialog.setTitle("Add Customer");
+        dialog.setHeaderText("Add Customer");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getClassLoader().getResource("UI/customerUI/addAndUpdateCustomerDialog.fxml"));
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return;
+        }
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+
+            AddAndUpdateCustomerDialogController controller = fxmlLoader.getController();
+            try {
+                Visitor visitor = controller.processResult();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, Data.getInstance().getSystem().addCustomer(visitor), ButtonType.OK);
+                Data.getInstance().reloadVisitors();
+                alert.showAndWait();
+
+            } catch (IllegalArgumentException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+                alert.showAndWait();
+            }
+        }
+    }
+
+    @FXML
+    public void showUpdateVisitorDialog() {
+        if (visitorsTable.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR
+                    , "Please select a customer to update or add a new one!",
+                    ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Update Customer");
+        dialog.setHeaderText("Please change The information you need to update");
+        Visitor selectedVisitor = visitorsTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedVisitor);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("UI/customerUI/addAndUpdateCustomerDialog.fxml"));
+        try {
+            dialog.getDialogPane().setContent(loader.load());
+            AddAndUpdateCustomerDialogController controller = loader.getController();
+            controller.populateFields(selectedVisitor);
+
+
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                Visitor newVisitor = controller.processResult();
+                System.out.println(newVisitor);
+                Data.getInstance().getSystem().getCustomers().set(Data.getInstance().getSystem().getCustomers().indexOf(selectedVisitor), newVisitor);
+                Data.getInstance().reloadVisitors();
+            }
+
+            System.out.println(selectedVisitor.toString());
+
+
+        } catch (IOException e) {
+            System.out.println("Failed to load the dialog");
+            System.out.println(e.getMessage());
+        }
+//        Data.getInstance().getSystem().getCustomers().add(new Visitor(32455,"Mohamed", "345235", "address", "Nationality", "2345", 2345,
+//                LocalDate.now(), LocalDate.now()));
+
+    }
+
+    @FXML
+    public void deleteCustomer() {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        if (visitorsTable.getSelectionModel().getSelectedItem() == null) {
+            dialog.setTitle("Message");
+            dialog.setHeaderText("Message");
+            dialog.setContentText("Please select a car to delete!");
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                return;
+            }
+        }
+        dialog.setTitle("Delete confirmation");
+        Visitor selectedVisitor = visitorsTable.getSelectionModel().getSelectedItem();
+        dialog.setHeaderText("Are you sure you want to delete customer with id:" + selectedVisitor.getCustomerId() + "?");
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Data.getInstance().getSystem().getCustomers().remove(selectedVisitor);
+            Data.getInstance().reloadVisitors();
+        }
+
+    }
+
+    //
+    @FXML
+    public void saveVisitors() {
+        Data.getInstance().saveVisitors();
+    }
+//
+//    @FXML
+//    public void returnToMainMenu() {
+//
+//        try {
+//            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainWindow.fxml"));
+//            Stage activeStage = (Stage) carWindow.getScene().getWindow();
+//            activeStage.setScene(new Scene(root, 500, 400));
+//        } catch (IOException e) {
+//            System.out.println("Failed to load the mainWindow");
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }

@@ -154,7 +154,17 @@ public class Rental {
         this.invoice = invoice;
     }
 
+    public double getTotal(){
+        return invoice.calculateTotalPayment();
+    }
 
+    public LocalDate getInvoiceDate(){
+        return invoice.getInvoiceDate();
+    }
+
+    public int getInvoiceNo(){
+        return invoice.getInvoiceNo();
+    }
     //for testing purposes
     @Override
     public String toString() {

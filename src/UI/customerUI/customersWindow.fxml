@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="customersWindow" fx:controller="UI.customerUI.customersWindowController" maxHeight="-Infinity"
+      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="946.0"
+      spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="600.0" spacing="10.0">
+            <children>
+                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Add" textAlignment="CENTER" onAction="#showAddCustomerDialog"/>
+                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Update" onAction="#showUpdateVisitorDialog"/>
+                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Delete" onAction="#deleteCustomer"/>
+                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Save" onAction="#saveVisitors"/>
+            </children>
+            <opaqueInsets>
+                <Insets left="10.0"/>
+            </opaqueInsets>
+            <padding>
+                <Insets left="10.0"/>
+            </padding>
+        </HBox>
+        <TableView fx:id="visitorsTable" prefHeight="328.0" prefWidth="914.0">
+            <columns>
+                <TableColumn fx:id="idColumn" minWidth="30.0" prefWidth="104.0" text="ID"/>
+                <TableColumn fx:id="nameColumn" minWidth="5.0" prefWidth="97.0" text="Name"/>
+                <TableColumn fx:id="phoneColumn" minWidth="3.0" prefWidth="84.0" text="Phone"/>
+                <TableColumn fx:id="addressColumn" minWidth="0.0" prefWidth="111.0" text="Address"/>
+                <TableColumn fx:id="nationalityColumn" minWidth="0.0" prefWidth="75.0" text="Nationality"/>
+                <TableColumn fx:id="passportColumn" minWidth="0.0" prefWidth="135.0" text="PassportNo"/>
+                <TableColumn fx:id="licenceColumn" minWidth="0.0" prefWidth="110.0" text="Driving Licence"/>
+                <TableColumn fx:id="entryDateColumn" minWidth="0.0" prefWidth="115.0" text="Entry Date"/>
+                <TableColumn fx:id="expiryDateColumn" minWidth="0.0" prefWidth="94.0" text="Expiry Date"/>
+            </columns>
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+        </TableView>
+    </children>
+    <padding>
+        <Insets left="10.0" right="10.0"/>
+    </padding>
+</VBox>

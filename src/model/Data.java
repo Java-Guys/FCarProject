@@ -17,10 +17,11 @@ public class Data {
 
     private static Data data = new Data();
     private FCarSystem system;
-    private ObservableList<Visitor> visitors = FXCollections.observableArrayList();
+    private ObservableList<Visitor> visitors;
 
     private Data() {
         system = new FCarSystem();
+        visitors = FXCollections.observableArrayList();
     }
 
     public static Data getInstance() {
@@ -28,6 +29,7 @@ public class Data {
     }
 
     public FCarSystem getSystem(){
+        reloadVisitors();
         return system;
     }
 
@@ -49,13 +51,25 @@ public class Data {
     }
 
     public void loadVisitors() {
+//        try {
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            Reader reader = Files.newBufferedReader(Paths.get("src/store/visitors.json"));
+//            ObservableList<Visitor> visitors = FXCollections.observableArrayList();
+//            List<Visitor> visitorsList = Arrays.asList(gson.fromJson(reader,Visitor[].class));
+//            visitors.setAll(visitorsList);
+//            Data.getInstance().getSystem().setVisitors(visitors);
+//            reader.close();
+//        } catch (IOException e) {
+//            System.out.println("Failed to load customers");
+//            e.printStackTrace();
+//        }
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Reader reader = Files.newBufferedReader(Paths.get("src/store/visitors.json"));
-            ObservableList<Visitor> visitors = FXCollections.observableArrayList();
+            ObservableList<Customer> visitors = FXCollections.observableArrayList();
             List<Visitor> visitorsList = Arrays.asList(gson.fromJson(reader,Visitor[].class));
             visitors.setAll(visitorsList);
-            Data.getInstance().getSystem().setVisitors(visitors);
+            Data.getInstance().getSystem().setCustomers(visitors);
             reader.close();
         } catch (IOException e) {
             System.out.println("Failed to load customers");
@@ -75,10 +89,19 @@ public class Data {
         }
     }
     public void saveVisitors(){
+//        try {
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            Writer writer = Files.newBufferedWriter(Paths.get("src/store/visitors.json"));
+//            gson.toJson(Data.getInstance().getSystem().getVisitors(), writer);
+//            writer.close();
+//        } catch (IOException e) {
+//            System.out.println("error");
+//            e.printStackTrace();
+//        }
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Writer writer = Files.newBufferedWriter(Paths.get("src/store/visitors.json"));
-            gson.toJson(Data.getInstance().getSystem().getVisitors(), writer);
+            gson.toJson(getVisitors(), writer);
             writer.close();
         } catch (IOException e) {
             System.out.println("error");
@@ -98,13 +121,24 @@ public class Data {
         }
     }
 
-
-    public ObservableList<Car> getCars() {
-        return system.getCars();
-    }
-
     public void loadRentals() {
         System.out.println("Loading rentals");
         //process loading rentals from the file to the system
+    }
+
+    public ObservableList<Visitor> getVisitors(){
+        return visitors;
+    }
+
+    public void reloadVisitors(){
+        System.out.println("reloading visitor");
+        ObservableList<Visitor> visitors = FXCollections.observableArrayList();
+        for (Customer customer: system.getCustomers()){
+            if (customer instanceof Visitor){
+                visitors.add((Visitor)customer);
+            }
+        }
+        System.out.println("setting all");
+        this.visitors.setAll(visitors);
     }
 }

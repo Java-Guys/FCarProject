@@ -1,28 +1,16 @@
-package UI.Rentals;
+package UI.rentalUI;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 import model.*;
 
-import java.io.Reader;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,55 +18,55 @@ import java.util.ResourceBundle;
 public class RentalsController implements Initializable {
 
     @FXML
-    private ComboBox<Customer> CustomerComboBox;
+    private ComboBox<Visitor> visitorComboBox;
 
     @FXML
-    private ComboBox<Car> CarComboBox;
+    private ComboBox<Car> carComboBox;
 
     @FXML
-    private DatePicker StartDateDP;
+    private DatePicker startDateDP;
 
     @FXML
-    private DatePicker EndDateDP;
+    private DatePicker endDateDP;
 
     @FXML
-    private TableView<Rental> RentalsTable;
+    private TableView<Rental> rentalsTable;
 
     @FXML
-    private TableColumn<Rental, LocalDate> StartDateColumn;
+    private TableColumn<Rental, LocalDate> startDateColumn;
 
     @FXML
-    private TableColumn<Rental, LocalDate> EndDateColumn;
+    private TableColumn<Rental, LocalDate> endDateColumn;
 
     @FXML
-    private TableColumn<Rental, Double> DepositColumn;
+    private TableColumn<Rental, Double> depositColumn;
 
     @FXML
-    private TableColumn<Rental, Integer> InvoiceNoColumn;
+    private TableColumn<Rental, Integer> invoiceNoColumn;
 
     @FXML
-    private TableColumn<Rental, LocalDate> InvoiceDateColumn;
+    private TableColumn<Rental, LocalDate> invoiceDateColumn;
 
     @FXML
-    private TableColumn<Rental, Double> TotalColumn;
+    private TableColumn<Rental, Double> totalColumn;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        CustomerComboBox.setItems(Data.getInstance().getSystem().getCustomers());
-        CustomerComboBox.setValue(Data.getInstance().getSystem().getCustomers().get(1));
-        CarComboBox.setItems(Data.getInstance().getSystem().getCarByAvailability(true));
-        CarComboBox.setValue(Data.getInstance().getSystem().getCarByAvailability(true).get(1));
-        StartDateDP.setValue(LocalDate.now());
-        EndDateDP.setValue(LocalDate.now().plusDays(1));
-        RentalsTable.setItems(Data.getInstance().getSystem().getRentals());
-        StartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        EndDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        DepositColumn.setCellValueFactory(new PropertyValueFactory<>("deposit"));
-        InvoiceNoColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceNo"));
-        InvoiceDateColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceDate"));
-        TotalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
+        visitorComboBox.setItems(Data.getInstance().getVisitors());
+        visitorComboBox.setValue(Data.getInstance().getVisitors().get(0));
+        carComboBox.setItems(Data.getInstance().getSystem().getCarByAvailability(true));
+        carComboBox.setValue(Data.getInstance().getSystem().getCarByAvailability(true).get(1));
+        startDateDP.setValue(LocalDate.now());
+        endDateDP.setValue(LocalDate.now().plusDays(1));
+        rentalsTable.setItems(Data.getInstance().getSystem().getRentals());
+        startDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        depositColumn.setCellValueFactory(new PropertyValueFactory<>("deposit"));
+        invoiceNoColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceNo"));
+        invoiceDateColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceDate"));
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
 
     }
 
@@ -90,11 +78,11 @@ public class RentalsController implements Initializable {
 
         Rental rental = new Rental();
 
-        rental.setCustomer(CustomerComboBox.getValue());
-        rental.setCar(CarComboBox.getValue());
+        rental.setCustomer(visitorComboBox.getValue());
+        rental.setCar(carComboBox.getValue());
 
-        rental.setStartDate(StartDateDP.getValue());
-        rental.setEndDate(EndDateDP.getValue());
+        rental.setStartDate(startDateDP.getValue());
+        rental.setEndDate(endDateDP.getValue());
         rental.setDeposit(2000);
         rental.setInvoice(new Invoice(LocalDate.now(),new ArrayList<Payment>()));
 

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.customerUI.AddAndUpdateCustomerDialogController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="179.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="423.0" minWidth="10.0" prefWidth="421.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label prefHeight="33.0" prefWidth="189.0" style="-fx-text-alignment: center;" text="Customer ID" textAlignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Label>
+      <Label layoutX="10.0" layoutY="114.0" prefHeight="33.0" prefWidth="189.0" text="Name" GridPane.rowIndex="1">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="10.0" layoutY="194.0" prefHeight="33.0" prefWidth="189.0" text="phone" GridPane.rowIndex="2">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="10.0" layoutY="274.0" prefHeight="33.0" prefWidth="189.0" text="Address" GridPane.rowIndex="3">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label prefHeight="33.0" prefWidth="189.0" text="Nationality" GridPane.rowIndex="4">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="10.0" layoutY="308.0" prefHeight="33.0" prefWidth="189.0" text="Driving Licence" GridPane.rowIndex="5">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="10.0" layoutY="254.0" prefHeight="33.0" prefWidth="189.0" text="Passport No" GridPane.rowIndex="6">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="10.0" layoutY="268.0" prefHeight="33.0" prefWidth="189.0" text="Entry Date" GridPane.rowIndex="7">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label layoutX="10.0" layoutY="304.0" prefHeight="33.0" prefWidth="189.0" text="Visa Expiry Date" GridPane.rowIndex="8">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <TextField fx:id="customerId" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="name" layoutX="179.0" layoutY="58.0" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="phone" layoutX="179.0" layoutY="98.0" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="address" layoutX="179.0" layoutY="138.0" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="nationality" layoutX="179.0" layoutY="178.0" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="drivingLicence" layoutX="179.0" layoutY="218.0" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <TextField fx:id="passportNo" layoutX="179.0" layoutY="258.0" prefHeight="25.0" prefWidth="377.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </TextField>
+      <DatePicker fx:id="entryDate" prefHeight="25.0" prefWidth="418.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <DatePicker fx:id="visaExpiryDate" prefHeight="25.0" prefWidth="415.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+   </children>
+   <padding>
+      <Insets right="20.0" />
+   </padding>
+</GridPane>

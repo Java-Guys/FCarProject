@@ -1,5 +1,6 @@
 package UI;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,8 +60,20 @@ public class Controller {
 
     @FXML
     public void showRentalsDialog() {
-        System.out.println("show customer dialog");
         System.out.println("rentals seleted");
+
+        try{
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("UI/rentalUI/RentalsWindow.fxml"));
+            Stage activeStage = (Stage) main.getScene().getWindow();
+            activeStage.setScene(new Scene(root));
+
+        }catch (IOException e){
+            System.out.println("Error while Rentals Loading Window!");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+
     }
 
 
