@@ -3,9 +3,12 @@ package UI.customerUI;
 import UI.carUI.AddCarController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.*;
 
 import java.io.IOException;
@@ -135,8 +138,6 @@ public class customersWindowController {
             System.out.println("Failed to load the dialog");
             System.out.println(e.getMessage());
         }
-//        Data.getInstance().getSystem().getCustomers().add(new Visitor(32455,"Mohamed", "345235", "address", "Nationality", "2345", 2345,
-//                LocalDate.now(), LocalDate.now()));
 
     }
 
@@ -168,22 +169,20 @@ public class customersWindowController {
 
     }
 
-    //
     @FXML
     public void saveVisitors() {
         Data.getInstance().saveVisitors();
     }
-//
-//    @FXML
-//    public void returnToMainMenu() {
-//
-//        try {
-//            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainWindow.fxml"));
-//            Stage activeStage = (Stage) carWindow.getScene().getWindow();
-//            activeStage.setScene(new Scene(root, 500, 400));
-//        } catch (IOException e) {
-//            System.out.println("Failed to load the mainWindow");
-//            System.out.println(e.getMessage());
-//        }
-//    }
+
+    @FXML
+    public void backToMainWindow() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("UI/MainWindow.fxml"));
+            Stage activeStage = (Stage) customersWindow.getScene().getWindow();
+            activeStage.setScene(new Scene(root, 500, 400));
+        } catch (IOException e) {
+            System.out.println("Failed to load the mainWindow");
+            System.out.println(e.getMessage());
+        }
+    }
 }

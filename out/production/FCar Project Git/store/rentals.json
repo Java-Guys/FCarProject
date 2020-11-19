@@ -1,0 +1,156 @@
+[
+  {
+    "rentalNo": 1,
+    "customer": {
+      "customerId": 123456789,
+      "name": "Mohamed Hamdy",
+      "phone": "11111111",
+      "address": "Egyptian",
+      "nationality": "Egyptian",
+      "drivingLicence": "driving licence"
+    },
+    "car": {
+      "plateNo": "7755098",
+      "model": "Honda city",
+      "isAvailable": false,
+      "type": "SEDAN",
+      "dailyRentalRate": 150.0
+    },
+    "startDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 19
+    },
+    "endDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 20
+    },
+    "deposit": 0.0,
+    "invoice": {
+      "invoiceNo": 1,
+      "payments": [
+        {
+          "paymentDescription": "rental for 1 days",
+          "paymentId": 1,
+          "price": 150.0,
+          "paymentDate": {
+            "year": 2020,
+            "month": 11,
+            "day": 19
+          }
+        }
+      ]
+    }
+  },
+  {
+    "rentalNo": 2,
+    "customer": {
+      "passportNo": 18290346,
+      "entryDate": {
+        "year": 2020,
+        "month": 7,
+        "day": 20
+      },
+      "visaExpiryDate": {
+        "year": 2022,
+        "month": 7,
+        "day": 20
+      },
+      "customerId": 123456789,
+      "name": "Mohamed Hamdy",
+      "phone": "11111111",
+      "address": "Egyptian",
+      "nationality": "Egyptian",
+      "drivingLicence": "driving licence"
+    },
+    "car": {
+      "plateNo": "6549098",
+      "model": "Honda Civic",
+      "isAvailable": false,
+      "type": "SEDAN",
+      "dailyRentalRate": 300.0
+    },
+    "startDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 19
+    },
+    "endDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 20
+    },
+    "deposit": 0.0,
+    "invoice": {
+      "invoiceNo": 3,
+      "payments": [
+        {
+          "paymentDescription": "rental for 1 days",
+          "paymentId": 2,
+          "price": 300.0,
+          "paymentDate": {
+            "year": 2020,
+            "month": 11,
+            "day": 19
+          }
+        }
+      ]
+    }
+  },
+  {
+    "rentalNo": 3,
+    "customer": {
+      "passportNo": 18290346,
+      "entryDate": {
+        "year": 2020,
+        "month": 7,
+        "day": 20
+      },
+      "visaExpiryDate": {
+        "year": 2022,
+        "month": 7,
+        "day": 20
+      },
+      "customerId": 123456789,
+      "name": "Mohamed Hamdy",
+      "phone": "11111111",
+      "address": "Egyptian",
+      "nationality": "Egyptian",
+      "drivingLicence": "driving licence"
+    },
+    "car": {
+      "plateNo": "510509",
+      "model": "mini cooper",
+      "isAvailable": false,
+      "type": "SEDAN",
+      "dailyRentalRate": 600.0
+    },
+    "startDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 19
+    },
+    "endDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 20
+    },
+    "deposit": 0.0,
+    "invoice": {
+      "invoiceNo": 4,
+      "payments": [
+        {
+          "paymentDescription": "rental for 1 days",
+          "paymentId": 3,
+          "price": 600.0,
+          "paymentDate": {
+            "year": 2020,
+            "month": 11,
+            "day": 19
+          }
+        }
+      ]
+    }
+  }
+]

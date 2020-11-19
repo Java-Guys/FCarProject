@@ -7,16 +7,55 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="customersWindow" fx:controller="UI.customerUI.customersWindowController" maxHeight="-Infinity"
-      maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="946.0"
-      spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<VBox fx:id="customersWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="946.0" spacing="10.0" xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="UI.customerUI.customersWindowController">
     <children>
         <HBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="600.0" spacing="10.0">
             <children>
-                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Add" textAlignment="CENTER" onAction="#showAddCustomerDialog"/>
-                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Update" onAction="#showUpdateVisitorDialog"/>
-                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Delete" onAction="#deleteCustomer"/>
-                <Button mnemonicParsing="false" prefHeight="20.0" prefWidth="80.0" text="Save" onAction="#saveVisitors"/>
+                <Button mnemonicParsing="false" onAction="#backToMainWindow" prefHeight="25.0" prefWidth="27.0">
+                    <graphic>
+                        <ImageView>
+                            <Image url="@/toolbarButtonGraphics/navigation/Back24.gif"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#showAddCustomerDialog" prefHeight="20.0" prefWidth="100.0"
+                        text="Add" textAlignment="CENTER">
+                    <graphic>
+                        <ImageView>
+                            <Image url="@/toolbarButtonGraphics/general/Add24.gif"/>
+                        </ImageView>
+                    </graphic>
+
+                </Button>
+                <Button mnemonicParsing="false" onAction="#showUpdateVisitorDialog" prefHeight="20.0" prefWidth="100.0"
+                        text="Update">
+                    <graphic>
+                        <ImageView>
+                            <Image url="@/toolbarButtonGraphics/general/Edit24.gif"/>
+                        </ImageView>
+                    </graphic>
+
+                </Button>
+                <Button mnemonicParsing="false" onAction="#deleteCustomer" prefHeight="20.0" prefWidth="100.0"
+                        text="Delete">
+                    <graphic>
+                        <ImageView>
+                            <Image url="@/toolbarButtonGraphics/general/Delete24.gif"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#saveVisitors" prefHeight="20.0" prefWidth="100.0"
+                        text="Save">
+                    <graphic>
+                        <ImageView>
+                            <Image url="@/toolbarButtonGraphics/general/Save24.gif"/>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </children>
             <opaqueInsets>
                 <Insets left="10.0"/>

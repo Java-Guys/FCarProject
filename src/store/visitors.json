@@ -14,7 +14,7 @@
     "customerId": 123456789,
     "name": "Mohamed Hamdy",
     "phone": "11111111",
-    "address": "south khalifa",
+    "address": "Egyptian",
     "nationality": "Egyptian",
     "drivingLicence": "driving licence"
   },
@@ -52,7 +52,7 @@
     "customerId": 957168429,
     "name": "Mahmoud ",
     "phone": "55164672",
-    "address": "Egyptian",
+    "address": "gharafa",
     "nationality": "Egyptian",
     "drivingLicence": "driving licence"
   },
@@ -88,48 +88,10 @@
       "day": 20
     },
     "customerId": 356876876,
-    "name": "Ali Hemeda",
+    "name": "Ali Hemida",
     "phone": "44444444",
-    "address": "doha",
-    "nationality": "Hindi",
+    "address": "Hindi",
+    "nationality": "egyption",
     "drivingLicence": "driving licence"
-  },
-  {
-    "passportNo": 1598756354,
-    "entryDate": {
-      "year": 2020,
-      "month": 11,
-      "day": 14
-    },
-    "visaExpiryDate": {
-      "year": 2020,
-      "month": 11,
-      "day": 25
-    },
-    "customerId": 45678913,
-    "name": "Ahmed Abdelmohsen",
-    "phone": "55649827",
-    "address": "wakra",
-    "nationality": "Hindi",
-    "drivingLicence": "459892"
-  },
-  {
-    "passportNo": 4325,
-    "entryDate": {
-      "year": 2020,
-      "month": 11,
-      "day": 18
-    },
-    "visaExpiryDate": {
-      "year": 2020,
-      "month": 11,
-      "day": 18
-    },
-    "customerId": 4325,
-    "name": "wqer",
-    "phone": "qewr",
-    "address": "weqr",
-    "nationality": "ewqr",
-    "drivingLicence": "weqr"
   }
 ]

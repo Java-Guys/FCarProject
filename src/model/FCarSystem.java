@@ -14,7 +14,7 @@ import java.util.List;
  * @author Ezeldin Ahmed
  * @author Mahmoud Shreif
  * Creation Date : 14-10-2020
- * @version 3
+ * @version 8
  */
 
 public class FCarSystem {
@@ -22,14 +22,12 @@ public class FCarSystem {
     private ObservableList<Car> cars;
     private ObservableList<Rental> rentals;
     private double totalIncome;
-    private ObservableList<Visitor> visitors;
 
 
     public FCarSystem() {
         customers = FXCollections.observableArrayList();
         cars = FXCollections.observableArrayList();
         rentals = FXCollections.observableArrayList();
-        visitors = FXCollections.observableArrayList();
     }
 
     /**
@@ -87,27 +85,7 @@ public class FCarSystem {
         this.rentals = rentals;
     }
 
-    public void setVisitors(ObservableList<Visitor> visitors) {
-        this.visitors = visitors;
-    }
 
-    public ObservableList<Visitor> getVisitors() {
-        return visitors;
-    }
-
-    public String addVisitor(Visitor visitor){
-        if (visitor == null) {
-            return "cannot add null";
-        }
-        for (int i = 0; i < visitors.size(); i++) {
-            if (visitors.get(i).getCustomerId() == visitor.getCustomerId()) {
-                return "this visitor already exists!";
-            }
-
-        }
-        visitors.add(visitor);
-        return "Added visitor successfully";
-    }
     /**
      * @param car
      * @return message
@@ -145,9 +123,9 @@ public class FCarSystem {
      */
     public String deleteCar(String plateNo) {
         for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).getPlateNo() == plateNo) {
+            if (cars.get(i).getPlateNo().equalsIgnoreCase(plateNo)) {
                 for (int j = 0; j < rentals.size(); j++) {
-                    if (rentals.get(j).getCar().getPlateNo() == plateNo) {
+                    if (rentals.get(j).getCar().getPlateNo().equalsIgnoreCase(plateNo)) {
                         rentals.remove(j);
                     }
                 }
@@ -235,6 +213,9 @@ public class FCarSystem {
         if (rental.getDeposit() < 2000) {
             return "please deposit 2000QR or more to book a rental";
         }
+        if (rental.getInvoice() == null) {
+            rental.setInvoice(new Invoice(LocalDate.now(), new ArrayList<Payment>()));
+        }
 
         for (Car car : cars) {
             if (car.getPlateNo().equals(rental.getCar().getPlateNo())) {
@@ -245,6 +226,28 @@ public class FCarSystem {
                 for (Customer customer : customers) {
                     if (customer.getCustomerId() == rental.getCustomer().getCustomerId()) {
                         car.setAvailable(false);
+
+                        int period = rental.getEndDate().getDayOfYear() - rental.getStartDate().getDayOfYear();
+                        Payment payment = new Payment();
+                        payment.setPaymentDescription("rental for " + period + " days");
+                        payment.setPrice(rental.getCar().getDailyRentalRate() * period);
+                        payment.setPaymentDate(LocalDate.now());  // user can change it later
+                        rental.getInvoice().addPayment(payment);
+
+                        double total = rental.getInvoice().calculateTotalPayment();
+                        totalIncome += total;
+                        if (total > rental.getDeposit()) {
+                            total -= rental.getDeposit();
+                            rental.setDeposit(0);
+                            System.out.println("You should pay QR" + total);
+                            System.out.println("Your deposit has been spent");
+                        } else {
+                            rental.setDeposit(rental.getDeposit() - total);
+                            System.out.println("You should take back QR" + rental.getDeposit());
+                            rental.setDeposit(0); //supposing customer has taken the remaining deposit
+
+                        }
+
                         rentals.add(rental);
 
                         return "Rental has been booked successfully";
@@ -275,32 +278,8 @@ public class FCarSystem {
                 rental.setEndDate(LocalDate.now());
 
                 //adding the rental payment to the invoice
-                if (rental.getInvoice() == null) {
-                    Invoice invoice = new Invoice();
-                    invoice.setInvoiceDate(LocalDate.now());
 
-                    rental.setInvoice(invoice);
-                }
-                int period = rental.getEndDate().getDayOfYear() - rental.getStartDate().getDayOfYear();
-                Payment payment = new Payment();
-                payment.setPaymentDescription("rental for " + period + " days");
-                payment.setPrice(rental.getCar().getDailyRentalRate() * period);
-                payment.setPaymentDate(LocalDate.now());  // user can change it later
-                rental.getInvoice().addPayment(payment);
 
-                double total = rental.getInvoice().calculateTotalPayment();
-                totalIncome += total;
-                if (total > activeRental.getDeposit()) {
-                    total -= activeRental.getDeposit();
-                    activeRental.setDeposit(0);
-                    System.out.println("You should pay QR" + total);
-                    System.out.println("Your deposit has been spent");
-                } else {
-                    activeRental.setDeposit(activeRental.getDeposit() - total);
-                    System.out.println("You should take back QR" + activeRental.getDeposit());
-                    activeRental.setDeposit(0); //supposing customer has taken the remaining deposit
-
-                }
                 rentals.remove(activeRental);
                 return activeRental.getInvoice();
             }

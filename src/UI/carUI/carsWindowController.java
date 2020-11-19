@@ -35,20 +35,19 @@ public class carsWindowController {
 
 
     public void initialize() {
-        plateNoColumn.setCellValueFactory(new PropertyValueFactory<Car, String>("plateNo"));
-        modelColumn.setCellValueFactory(new PropertyValueFactory<Car, String>("model"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<Car, String>("type"));
-        availabilityColumn.setCellValueFactory(new PropertyValueFactory<Car, Boolean>("isAvailable"));
-        dailyRentalRateColumn.setCellValueFactory(new PropertyValueFactory<Car, Double>("dailyRentalRate"));
-//        carsTable.getItems().setAll(Parse)
+        plateNoColumn.setCellValueFactory(new PropertyValueFactory<>("plateNo"));
+        modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        availabilityColumn.setCellValueFactory(new PropertyValueFactory<>("isAvailable"));
+        dailyRentalRateColumn.setCellValueFactory(new PropertyValueFactory<>("dailyRentalRate"));
         carsTable.setItems(Data.getInstance().getSystem().getCars());
     }
 
-    @FXML
-    public void addCar() {
-        Car car = new Car("new plate no", "new model", CarType.SEDAN, 6000);
-        Data.getInstance().getSystem().addCar(car);
-    }
+//    @FXML
+//    public void addCar() {
+//        Car car = new Car("new plate no", "new model", CarType.SEDAN, 6000);
+//        Data.getInstance().getSystem().addCar(car);
+//    }
 
     @FXML
     public void showAddCarDialog() {
@@ -96,9 +95,7 @@ public class carsWindowController {
             dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
             Optional<ButtonType> result = dialog.showAndWait();
             return;
-//            if (result.isPresent() && result.get() == ButtonType.OK){
-//                return;
-//            }
+
         }
         dialog.setTitle("Update Car");
         dialog.setHeaderText("Please change The information you need to update");
@@ -156,7 +153,8 @@ public class carsWindowController {
         Optional<ButtonType> result = dialog.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Data.getInstance().getSystem().getCars().remove(selectedCar);
+//            Data.getInstance().getSystem().getCars().remove(selectedCar);
+            Data.getInstance().getSystem().deleteCar(selectedCar.getPlateNo());
         }
 
     }
@@ -164,13 +162,14 @@ public class carsWindowController {
     @FXML
     public void saveCars() {
         Data.getInstance().saveCars();
+        Data.getInstance().saveRentals();
     }
 
     @FXML
-    public void returnToMainMenu() {
+    public void backToMainWindow() {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainWindow.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("UI/MainWindow.fxml"));
             Stage activeStage = (Stage) carWindow.getScene().getWindow();
             activeStage.setScene(new Scene(root, 500, 400));
         } catch (IOException e) {

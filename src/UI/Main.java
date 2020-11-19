@@ -20,10 +20,9 @@ public class Main extends Application {
 
     }
     public static void main(String[] args){
+        Data.getInstance().loadCustomers();
         Data.getInstance().loadCars();
-        Data.getInstance().loadVisitors();
         Data.getInstance().loadRentals();
-        Data.getInstance().reloadVisitors();
 
 
         launch(args);

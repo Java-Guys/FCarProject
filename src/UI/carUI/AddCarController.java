@@ -51,7 +51,8 @@ public class AddCarController {
         String inputModel = model.getText().trim();
         String inputType = type.getValue().toString();
         RadioButton selectedRadioButton = (RadioButton) group.getSelectedToggle();
-        boolean inputAvailable = selectedRadioButton.getText() == "Yes" ? true : false;
+        System.out.println(selectedRadioButton.getText());
+        boolean inputAvailable = selectedRadioButton.getText().equalsIgnoreCase("Yes") ? true : false;
         CarType carType = null;
         switch (inputType) {
             case "suv":

@@ -1,47 +1,5 @@
 [
   {
-    "plateNo": "5884469",
-    "model": "toyota-cruser",
-    "isAvailable": true,
-    "type": "SUV",
-    "dailyRentalRate": 500.0
-  },
-  {
-    "plateNo": "456789",
-    "model": "nissan-sunnyy",
-    "isAvailable": false,
-    "type": "SUV",
-    "dailyRentalRate": 80.0
-  },
-  {
-    "plateNo": "6518465",
-    "model": "matsubishi-lancer",
-    "isAvailable": true,
-    "type": "SEDAN",
-    "dailyRentalRate": 100.0
-  },
-  {
-    "plateNo": "632594",
-    "model": "toyota-prado",
-    "isAvailable": false,
-    "type": "SUV",
-    "dailyRentalRate": 350.0
-  },
-  {
-    "plateNo": "216894",
-    "model": "kia-sportage",
-    "isAvailable": true,
-    "type": "SUV",
-    "dailyRentalRate": 150.0
-  },
-  {
-    "plateNo": "510509",
-    "model": "mini cooper",
-    "isAvailable": true,
-    "type": "SEDAN",
-    "dailyRentalRate": 600.0
-  },
-  {
     "plateNo": "7755098",
     "model": "Honda city",
     "isAvailable": false,
@@ -51,22 +9,15 @@
   {
     "plateNo": "6549098",
     "model": "Honda Civic",
-    "isAvailable": true,
+    "isAvailable": false,
     "type": "SEDAN",
     "dailyRentalRate": 300.0
   },
   {
-    "plateNo": "3256786",
-    "model": "Ferrari spider",
-    "isAvailable": true,
+    "plateNo": "510509",
+    "model": "mini cooper",
+    "isAvailable": false,
     "type": "SEDAN",
-    "dailyRentalRate": 2000.0
-  },
-  {
-    "plateNo": "6258458",
-    "model": "nissan-sunny",
-    "isAvailable": true,
-    "type": "SEDAN",
-    "dailyRentalRate": 80.0
+    "dailyRentalRate": 600.0
   }
 ]
