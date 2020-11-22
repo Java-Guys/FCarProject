@@ -24,6 +24,10 @@ public class FCarSystem {
     private double totalIncome;
 
 
+    /**
+     * Public Constructor for System
+     * Initializing the lists with empty observable arraylists
+     */
     public FCarSystem() {
         customers = FXCollections.observableArrayList();
         cars = FXCollections.observableArrayList();
@@ -95,7 +99,7 @@ public class FCarSystem {
             return "cannot add null";
         }
         for (int i = 0; i < cars.size(); i++) {
-            if (cars.get(i).getPlateNo() == car.getPlateNo()) {
+            if (cars.get(i).getPlateNo().equalsIgnoreCase(car.getPlateNo())) {
                 return "this car already exists";
             }
         }
@@ -135,6 +139,38 @@ public class FCarSystem {
         }
         return "Couldn't find a car with this plate number! ";
     }
+
+    /**
+     * @param oldCar
+     * @param newCar
+     * @return Confirmation of the modification
+     */
+    public boolean modifyCar(Car oldCar, Car newCar) {
+        if (findCar(oldCar.getPlateNo()) != null &&
+                !oldCar.getPlateNo().equalsIgnoreCase(newCar.getPlateNo()) &&
+                findCar(newCar.getPlateNo()) != null) {
+            return false;
+        }
+        cars.set(cars.indexOf(oldCar),newCar);
+        return true;
+    }
+
+    /**
+     * @param oldCustomer
+     * @param newCustomer
+     * @return Confirmation of the modification
+     */
+  public boolean modifyCustomer(Customer oldCustomer, Customer newCustomer) {
+        if (findCustomer(oldCustomer.getCustomerId()) != null &&
+                oldCustomer.getCustomerId() != newCustomer.getCustomerId() &&
+                findCustomer(newCustomer.getCustomerId()) != null) {
+            return false;
+        }
+        customers.set(customers.indexOf(oldCustomer),newCustomer);
+        return true;
+    }
+
+
 
     /**
      * @param customer
@@ -236,17 +272,17 @@ public class FCarSystem {
 
                         double total = rental.getInvoice().calculateTotalPayment();
                         totalIncome += total;
-                        if (total > rental.getDeposit()) {
-                            total -= rental.getDeposit();
-                            rental.setDeposit(0);
-                            System.out.println("You should pay QR" + total);
-                            System.out.println("Your deposit has been spent");
-                        } else {
-                            rental.setDeposit(rental.getDeposit() - total);
-                            System.out.println("You should take back QR" + rental.getDeposit());
-                            rental.setDeposit(0); //supposing customer has taken the remaining deposit
-
-                        }
+//                        if (total > rental.getDeposit()) {
+//                            total -= rental.getDeposit();
+//                            rental.setDeposit(0);
+//                            System.out.println("You should pay QR" + total);
+//                            System.out.println("Your deposit has been spent");
+//                        } else {
+//                            rental.setDeposit(rental.getDeposit() - total);
+//                            System.out.println("You should take back QR" + rental.getDeposit());
+//                            rental.setDeposit(0); //supposing customer has taken the remaining deposit
+//
+//                        }
 
                         rentals.add(rental);
 
@@ -278,8 +314,6 @@ public class FCarSystem {
                 rental.setEndDate(LocalDate.now());
 
                 //adding the rental payment to the invoice
-
-
                 rentals.remove(activeRental);
                 return activeRental.getInvoice();
             }
@@ -433,6 +467,9 @@ public class FCarSystem {
         }
     }
 
+    /**
+     * print total income of the company
+     */
     public void printTotalIncome() {
         System.out.println("The company's total income till now is: ");
         System.out.println(totalIncome);

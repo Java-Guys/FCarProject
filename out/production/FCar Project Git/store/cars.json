@@ -7,11 +7,32 @@
     "dailyRentalRate": 150.0
   },
   {
+    "plateNo": "6151677",
+    "model": "Nissan GTR",
+    "isAvailable": false,
+    "type": "SEDAN",
+    "dailyRentalRate": 1200.0
+  },
+  {
+    "plateNo": "1234",
+    "model": "Toyota landcruiser",
+    "isAvailable": false,
+    "type": "SUV",
+    "dailyRentalRate": 900.0
+  },
+  {
     "plateNo": "6549098",
     "model": "Honda Civic",
     "isAvailable": false,
     "type": "SEDAN",
-    "dailyRentalRate": 300.0
+    "dailyRentalRate": 180.0
+  },
+  {
+    "plateNo": "111",
+    "model": "Lamborghini Avendator",
+    "isAvailable": false,
+    "type": "SEDAN",
+    "dailyRentalRate": 3500.0
   },
   {
     "plateNo": "510509",

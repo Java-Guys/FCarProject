@@ -7,6 +7,12 @@ import model.Visitor;
 
 import java.time.LocalDate;
 
+/**
+ * @author M-Hamdy-M
+ * Creation Date : 7-11-2020
+ * @version 2
+ */
+
 public class AddAndUpdateCustomerDialogController {
     @FXML
     private TextField customerId;
@@ -27,11 +33,18 @@ public class AddAndUpdateCustomerDialogController {
     @FXML
     private DatePicker visaExpiryDate;
 
+    /**
+     * set the default value of entry and visa date to today's date
+     */
     public void initialize() {
         entryDate.setValue(LocalDate.now());
         visaExpiryDate.setValue(LocalDate.now());
     }
 
+    /**
+     * @return Visitor
+     * @throws IllegalArgumentException
+     */
     public Visitor processResult() throws IllegalArgumentException {
         String inputName = name.getText();
         String inputPhone = phone.getText();
@@ -45,7 +58,6 @@ public class AddAndUpdateCustomerDialogController {
             throw new IllegalArgumentException("All fields should be filled to add a customer");
         }
         try {
-
             int inputCustomerId = Integer.parseInt(customerId.getText());
             int inputPassportNo = Integer.parseInt(passportNo.getText());
             return new Visitor(inputCustomerId, inputName, inputPhone, inputAddress, inputNationality, inputDrivingLicence, inputPassportNo, inputEntryDate, inputVisaExpiryDate);
@@ -54,11 +66,14 @@ public class AddAndUpdateCustomerDialogController {
         }
     }
 
+    /**
+     * @param visitor
+     */
     public void populateFields(Visitor visitor) {
         customerId.setText(String.valueOf(visitor.getCustomerId()));
         name.setText(visitor.getName());
         phone.setText(visitor.getPhone());
-        address.setText(visitor.getNationality());
+        address.setText(visitor.getAddress());
         nationality.setText(visitor.getNationality());
         drivingLicence.setText(visitor.getDrivingLicence());
         passportNo.setText(String.valueOf(visitor.getPassportNo()));

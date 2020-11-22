@@ -1,6 +1,5 @@
 package UI.customerUI;
 
-import UI.carUI.AddCarController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +13,12 @@ import model.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
+
+/**
+ * @author M-Hamdy-M
+ * Creation Date : 8-11-2020
+ * @version 2
+ */
 
 public class customersWindowController {
 
@@ -41,6 +46,9 @@ public class customersWindowController {
     private TableColumn<Visitor, LocalDate> expiryDateColumn;
 
 
+    /**
+     * populating customer tableView
+     */
     public void initialize() {
         idColumn.setCellValueFactory(new PropertyValueFactory<Visitor, Integer>("customerId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Visitor, String>("name"));
@@ -53,15 +61,12 @@ public class customersWindowController {
         expiryDateColumn.setCellValueFactory(new PropertyValueFactory<Visitor, LocalDate>("visaExpiryDate"));
 
         visitorsTable.setItems(Data.getInstance().getVisitors());
-//        customersTable.setItems(Data.getInstance().getSystem().getCustomers());
     }
 
-    @FXML
-    public void addCar() {
-        Car car = new Car("new plate no", "new model", CarType.SEDAN, 6000);
-        Data.getInstance().getSystem().addCar(car);
-    }
 
+    /**
+     * shows the Add Customer Dialog when pressing the Add Button
+     */
     @FXML
     public void showAddCustomerDialog() {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -75,7 +80,6 @@ public class customersWindowController {
         } catch (IOException e) {
             System.out.println("Couldn't load the dialog");
             System.out.println(e.getMessage());
-            e.printStackTrace();
             return;
         }
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -89,29 +93,31 @@ public class customersWindowController {
                 Visitor visitor = controller.processResult();
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, Data.getInstance().getSystem().addCustomer(visitor), ButtonType.OK);
                 Data.getInstance().reloadVisitors();
-                alert.showAndWait();
-
+                alert.show();
+                return;
             } catch (IllegalArgumentException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
-                alert.showAndWait();
+                alert.show();
             }
         }
     }
 
+    /**
+     * shows the Update Customer Dialog when pressing the Update Button
+     */
     @FXML
     public void showUpdateVisitorDialog() {
         if (visitorsTable.getSelectionModel().getSelectedItem() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR
                     , "Please select a customer to update or add a new one!",
                     ButtonType.OK);
-            alert.showAndWait();
+            alert.show();
             return;
         }
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Update Customer");
         dialog.setHeaderText("Please change The information you need to update");
         Visitor selectedVisitor = visitorsTable.getSelectionModel().getSelectedItem();
-        System.out.println(selectedVisitor);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("UI/customerUI/addAndUpdateCustomerDialog.fxml"));
         try {
@@ -126,9 +132,16 @@ public class customersWindowController {
             Optional<ButtonType> result = dialog.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 Visitor newVisitor = controller.processResult();
-                System.out.println(newVisitor);
-                Data.getInstance().getSystem().getCustomers().set(Data.getInstance().getSystem().getCustomers().indexOf(selectedVisitor), newVisitor);
-                Data.getInstance().reloadVisitors();
+                if (Data.getInstance().getSystem().modifyCustomer(selectedVisitor, newVisitor)) {
+                    Data.getInstance().reloadVisitors();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Customer Updated Successfully", ButtonType.OK);
+                    alert.show();
+                    return;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "There are already exist a customer with this customer ID", ButtonType.OK);
+                    alert.show();
+                    return;
+                }
             }
 
             System.out.println(selectedVisitor.toString());
@@ -137,43 +150,49 @@ public class customersWindowController {
         } catch (IOException e) {
             System.out.println("Failed to load the dialog");
             System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage(), ButtonType.OK);
+            alert.show();
         }
 
     }
 
+    /**
+     * Deletes the Customer when pressing the Delete Button
+     */
     @FXML
     public void deleteCustomer() {
-        Dialog<ButtonType> dialog = new Dialog<>();
         if (visitorsTable.getSelectionModel().getSelectedItem() == null) {
-            dialog.setTitle("Message");
-            dialog.setHeaderText("Message");
-            dialog.setContentText("Please select a car to delete!");
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                return;
-            }
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a customer to delete!", ButtonType.OK);
+            alert.show();
+            return;
         }
-        dialog.setTitle("Delete confirmation");
         Visitor selectedVisitor = visitorsTable.getSelectionModel().getSelectedItem();
-        dialog.setHeaderText("Are you sure you want to delete customer with id:" + selectedVisitor.getCustomerId() + "?");
-
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        Optional<ButtonType> result = dialog.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION
+                , "Are you sure you want to delete customer with id:" + selectedVisitor.getCustomerId() + "?",
+                ButtonType.OK, ButtonType.CANCEL);
+        Optional<ButtonType> result =  alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Data.getInstance().getSystem().getCustomers().remove(selectedVisitor);
+            Alert alert1 = new Alert(Alert.AlertType.CONFIRMATION,
+                    Data.getInstance().getSystem().deleteCustomer(selectedVisitor.getCustomerId()),
+                    ButtonType.OK);
             Data.getInstance().reloadVisitors();
+            alert1.show();
         }
-
     }
 
+    /**
+     * saves the Customer in the System to Json File when pressing the Save Button
+     */
     @FXML
     public void saveVisitors() {
         Data.getInstance().saveVisitors();
     }
 
+    /**
+     * Return Back to Main Window when pressing the Back button
+     */
     @FXML
     public void backToMainWindow() {
         try {

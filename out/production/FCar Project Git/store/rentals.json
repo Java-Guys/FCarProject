@@ -19,16 +19,21 @@
     "startDate": {
       "year": 2020,
       "month": 11,
-      "day": 19
+      "day": 21
     },
     "endDate": {
       "year": 2020,
       "month": 11,
-      "day": 20
+      "day": 22
     },
-    "deposit": 0.0,
+    "deposit": 2000.0,
     "invoice": {
       "invoiceNo": 1,
+      "invoiceDate": {
+        "year": 2020,
+        "month": 11,
+        "day": 21
+      },
       "payments": [
         {
           "paymentDescription": "rental for 1 days",
@@ -37,7 +42,7 @@
           "paymentDate": {
             "year": 2020,
             "month": 11,
-            "day": 19
+            "day": 21
           }
         }
       ]
@@ -65,34 +70,39 @@
       "drivingLicence": "driving licence"
     },
     "car": {
-      "plateNo": "6549098",
-      "model": "Honda Civic",
+      "plateNo": "6151677",
+      "model": "Nissan GTR",
       "isAvailable": false,
       "type": "SEDAN",
-      "dailyRentalRate": 300.0
+      "dailyRentalRate": 1200.0
     },
     "startDate": {
       "year": 2020,
       "month": 11,
-      "day": 19
+      "day": 21
     },
     "endDate": {
       "year": 2020,
       "month": 11,
-      "day": 20
+      "day": 22
     },
-    "deposit": 0.0,
+    "deposit": 2000.0,
     "invoice": {
       "invoiceNo": 3,
+      "invoiceDate": {
+        "year": 2020,
+        "month": 11,
+        "day": 21
+      },
       "payments": [
         {
           "paymentDescription": "rental for 1 days",
           "paymentId": 2,
-          "price": 300.0,
+          "price": 1200.0,
           "paymentDate": {
             "year": 2020,
             "month": 11,
-            "day": 19
+            "day": 21
           }
         }
       ]
@@ -100,6 +110,186 @@
   },
   {
     "rentalNo": 3,
+    "customer": {
+      "passportNo": 18290346,
+      "entryDate": {
+        "year": 2020,
+        "month": 7,
+        "day": 20
+      },
+      "visaExpiryDate": {
+        "year": 2022,
+        "month": 7,
+        "day": 20
+      },
+      "customerId": 123456789,
+      "name": "Mohamed Hamdy",
+      "phone": "11111111",
+      "address": "Egyptian",
+      "nationality": "Egyptian",
+      "drivingLicence": "driving licence"
+    },
+    "car": {
+      "plateNo": "1234",
+      "model": "Toyota landcruiser",
+      "isAvailable": false,
+      "type": "SUV",
+      "dailyRentalRate": 900.0
+    },
+    "startDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 21
+    },
+    "endDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 22
+    },
+    "deposit": 2000.0,
+    "invoice": {
+      "invoiceNo": 4,
+      "invoiceDate": {
+        "year": 2020,
+        "month": 11,
+        "day": 21
+      },
+      "payments": [
+        {
+          "paymentDescription": "rental for 1 days",
+          "paymentId": 3,
+          "price": 900.0,
+          "paymentDate": {
+            "year": 2020,
+            "month": 11,
+            "day": 21
+          }
+        }
+      ]
+    }
+  },
+  {
+    "rentalNo": 4,
+    "customer": {
+      "passportNo": 18290346,
+      "entryDate": {
+        "year": 2020,
+        "month": 7,
+        "day": 20
+      },
+      "visaExpiryDate": {
+        "year": 2022,
+        "month": 7,
+        "day": 20
+      },
+      "customerId": 123456789,
+      "name": "Mohamed Hamdy",
+      "phone": "11111111",
+      "address": "Egyptian",
+      "nationality": "Egyptian",
+      "drivingLicence": "driving licence"
+    },
+    "car": {
+      "plateNo": "6549098",
+      "model": "Honda Civic",
+      "isAvailable": false,
+      "type": "SEDAN",
+      "dailyRentalRate": 180.0
+    },
+    "startDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 21
+    },
+    "endDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 22
+    },
+    "deposit": 2000.0,
+    "invoice": {
+      "invoiceNo": 5,
+      "invoiceDate": {
+        "year": 2020,
+        "month": 11,
+        "day": 21
+      },
+      "payments": [
+        {
+          "paymentDescription": "rental for 1 days",
+          "paymentId": 4,
+          "price": 180.0,
+          "paymentDate": {
+            "year": 2020,
+            "month": 11,
+            "day": 21
+          }
+        }
+      ]
+    }
+  },
+  {
+    "rentalNo": 5,
+    "customer": {
+      "passportNo": 18290346,
+      "entryDate": {
+        "year": 2020,
+        "month": 7,
+        "day": 20
+      },
+      "visaExpiryDate": {
+        "year": 2022,
+        "month": 7,
+        "day": 20
+      },
+      "customerId": 123456789,
+      "name": "Mohamed Hamdy",
+      "phone": "11111111",
+      "address": "Egyptian",
+      "nationality": "Egyptian",
+      "drivingLicence": "driving licence"
+    },
+    "car": {
+      "plateNo": "111",
+      "model": "Lamborghini Avendator",
+      "isAvailable": false,
+      "type": "SEDAN",
+      "dailyRentalRate": 3500.0
+    },
+    "startDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 21
+    },
+    "endDate": {
+      "year": 2020,
+      "month": 11,
+      "day": 22
+    },
+    "deposit": 2000.0,
+    "invoice": {
+      "invoiceNo": 6,
+      "invoiceDate": {
+        "year": 2020,
+        "month": 11,
+        "day": 21
+      },
+      "payments": [
+        {
+          "paymentDescription": "rental for 1 days",
+          "paymentId": 5,
+          "price": 3500.0,
+          "paymentDate": {
+            "year": 2020,
+            "month": 11,
+            "day": 21
+          }
+        }
+      ]
+    }
+  },
+  {
+    "rentalNo": 6,
     "customer": {
       "passportNo": 18290346,
       "entryDate": {
@@ -129,25 +319,30 @@
     "startDate": {
       "year": 2020,
       "month": 11,
-      "day": 19
+      "day": 21
     },
     "endDate": {
       "year": 2020,
       "month": 11,
-      "day": 20
+      "day": 22
     },
-    "deposit": 0.0,
+    "deposit": 2000.0,
     "invoice": {
-      "invoiceNo": 4,
+      "invoiceNo": 7,
+      "invoiceDate": {
+        "year": 2020,
+        "month": 11,
+        "day": 21
+      },
       "payments": [
         {
           "paymentDescription": "rental for 1 days",
-          "paymentId": 3,
+          "paymentId": 6,
           "price": 600.0,
           "paymentDate": {
             "year": 2020,
             "month": 11,
-            "day": 19
+            "day": 21
           }
         }
       ]

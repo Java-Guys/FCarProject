@@ -11,7 +11,16 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.List;
+
+/**
+ * @author M-Hamdy-M
+ * @author Ezeldin Ahmed
+ * @author Mahmoud Shreif
+ * @author Omar Alkashef
+ * Creation Date : 15-10-2020
+ * @version 5
+ * using Singleton design pattern
+ */
 
 public class Data {
 
@@ -19,52 +28,82 @@ public class Data {
     private FCarSystem system;
     private ObservableList<Visitor> visitors;
 
+    /**
+     * Private Constructor for Data
+     */
     private Data() {
         system = new FCarSystem();
         visitors = FXCollections.observableArrayList();
     }
 
+    /**
+     * @return data
+     */
     public static Data getInstance() {
         return data;
     }
 
+    /**
+     * @return system
+     */
     public FCarSystem getSystem(){
         return system;
     }
 
+    /**
+     * Loading Cars from Json file to Car List in System
+     */
     public void loadCars() {
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Reader reader = Files.newBufferedReader(Paths.get("src/store/cars.json"));
-            ObservableList<Car> cars = FXCollections.observableArrayList();
-            List<Car> carsList = Arrays.asList(gson.fromJson(reader,Car[].class));
-            cars.setAll(carsList);
-            Data.getInstance().getSystem().setCars(cars);
+
+            Data.getInstance().getSystem().getCars().setAll(Arrays.asList(gson.fromJson(reader,Car[].class)));
             Data.getInstance().getSystem().printCars();
             reader.close();
         } catch (IOException e) {
             System.out.println("Failed to load cars");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
     }
 
+    /**
+     * Loading Customers from Json file to Customer List in System
+     */
     public void loadCustomers() {
-
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Reader reader = Files.newBufferedReader(Paths.get("src/store/visitors.json"));
-            ObservableList<Customer> visitors = FXCollections.observableArrayList();
-            List<Visitor> visitorsList = Arrays.asList(gson.fromJson(reader,Visitor[].class));
-            visitors.setAll(visitorsList);
-            Data.getInstance().getSystem().setCustomers(visitors);
+            Data.getInstance().getSystem().getCustomers().setAll(Arrays.asList(gson.fromJson(reader,Visitor[].class)));
             reader.close();
         } catch (IOException e) {
             System.out.println("Failed to load customers");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
+    /**
+     * Loading Rentals from Json file to Rental List in System
+     */
+    public void loadRentals() {
+        System.out.println("Loading rentals");
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            Reader reader = Files.newBufferedReader(Paths.get("src/store/rentals.json"));
+            Data.getInstance().getSystem().getRentals().setAll(Arrays.asList(gson.fromJson(reader,Rental[].class)));
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Failed to load rentals");
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * Saving Cars from Car ArrayList in System to Json file
+     */
     public void saveCars(){
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -72,10 +111,14 @@ public class Data {
             gson.toJson(Data.getInstance().getSystem().getCars(), writer);
             writer.close();
         } catch (IOException e) {
-            System.out.println("error");
-            e.printStackTrace();
+            System.out.println("error saving cars!");
+            System.out.println(e.getMessage());
         }
     }
+
+    /**
+     * Saving Customers from Customer ArrayList in System to Json file
+     */
     public void saveVisitors(){
 
         try {
@@ -89,6 +132,9 @@ public class Data {
         }
     }
 
+    /**
+     * Saving Rentals from Rental ArrayList in System to Json file
+     */
     public void saveRentals(){
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -102,28 +148,18 @@ public class Data {
 
     }
 
-    public void loadRentals() {
-        System.out.println("Loading rentals");
-        try {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            Reader reader = Files.newBufferedReader(Paths.get("src/store/rentals.json"));
-            ObservableList<Rental> rentals = FXCollections.observableArrayList();
-            List<Rental> rentalList = Arrays.asList(gson.fromJson(reader,Rental[].class));
-            rentals.setAll(rentalList);
-            Data.getInstance().getSystem().setRentals(rentals);
-            reader.close();
-        } catch (IOException e) {
-            System.out.println("Failed to load rentals");
-            e.printStackTrace();
-        }
 
-    }
-
+    /**
+     * @return visitors
+     */
     public ObservableList<Visitor> getVisitors(){
         reloadVisitors();
         return visitors;
     }
 
+    /**
+     * Resync the data in the customer list in the system with the visitors list in the Data class
+     */
     public void reloadVisitors(){
         System.out.println("reloading visitor");
         ObservableList<Visitor> visitors = FXCollections.observableArrayList();
@@ -132,7 +168,6 @@ public class Data {
                 visitors.add((Visitor)customer);
             }
         }
-        System.out.println("setting all");
         this.visitors.setAll(visitors);
     }
 }

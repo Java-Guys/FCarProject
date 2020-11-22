@@ -1,21 +1,19 @@
 package UI.carUI;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 import model.Car;
 import model.CarType;
-import model.Customer;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Arrays;
-
+/**
+ * @author M-Hamdy-M
+ * @author Ezeldin Ahmed
+ * @author Mahmoud Shreif
+ * Creation Date : 11-11-2020
+ * @version 3
+ */
 public class AddCarController {
     @FXML
     private TextField plateNo;
@@ -29,12 +27,14 @@ public class AddCarController {
     private RadioButton notAvailable;
     @FXML
     private TextField dailyRentalRate;
-    @FXML
-    private Text invalid;
 
 
     private ToggleGroup group = new ToggleGroup();
 
+    /**
+     * grouping the radio buttons in a toggle group
+     * and setting the default values for the rest fields
+     */
     public void initialize() {
         //grouping the availability radio button
         available.setToggleGroup(group);
@@ -42,10 +42,12 @@ public class AddCarController {
         group.selectToggle(available);
         type.setValue(CarType.SEDAN);
         type.setItems(FXCollections.observableArrayList(CarType.values()));
-        invalid.setVisible(false);
-
     }
 
+    /**
+     * @return Car
+     * @throws IllegalArgumentException
+     */
     public Car processResult() throws IllegalArgumentException {
         String inputPlateNo = plateNo.getText().trim();
         String inputModel = model.getText().trim();
@@ -70,10 +72,9 @@ public class AddCarController {
             case "truck":
                 carType = CarType.TRUCK;
                 break;
-
         }
+
         if (inputPlateNo.equals("") || inputModel.equals("") ){
-            System.out.println("Entered");
             throw new IllegalArgumentException("All fields should be filled in order to add a car.");
         }
         try {
@@ -86,12 +87,15 @@ public class AddCarController {
 
     }
 
-    public void populateFields(String initialPlateNo, String initialModel, CarType initialType, Boolean initialAvailability, double initialRentalRate) {
-        plateNo.setText(initialPlateNo);
-        model.setText(initialModel);
-        type.setValue(initialType);
-        group.selectToggle(initialAvailability ? available : notAvailable);
-        dailyRentalRate.setText("" + initialRentalRate);
+    /**
+     * @param car
+     */
+    public void populateFields(Car car) {
+        plateNo.setText(car.getPlateNo());
+        model.setText(car.getModel());
+        type.setValue(car.getType());
+        group.selectToggle(car.getIsAvailable() ? available : notAvailable);
+        dailyRentalRate.setText("" + car.getDailyRentalRate());
 
     }
 }

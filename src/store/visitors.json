@@ -61,17 +61,17 @@
     "entryDate": {
       "year": 2020,
       "month": 7,
-      "day": 20
+      "day": 15
     },
     "visaExpiryDate": {
       "year": 2022,
       "month": 7,
-      "day": 20
+      "day": 10
     },
     "customerId": 961486329,
     "name": "Ezeldin Ahmed",
     "phone": "33333333",
-    "address": "doha",
+    "address": "dafna",
     "nationality": "Egyptian",
     "drivingLicence": "driving licence"
   },

@@ -95,7 +95,8 @@
             </VBox>
             <VBox prefHeight="90.0" prefWidth="104.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#handleRent" prefHeight="77.0" prefWidth="84.0" text="Rent">
+<!--                  <Button fx:id="rentButton" mnemonicParsing="false" onAction="#handleRent" prefHeight="77.0" prefWidth="84.0" text="Rent">-->
+                  <Button fx:id="rentButton" mnemonicParsing="false" onAction="#handleRent" prefHeight="77.0" prefWidth="84.0" text="Rent">
                      <graphic>
                         <ImageView>
                            <Image url="rentCar.png" />

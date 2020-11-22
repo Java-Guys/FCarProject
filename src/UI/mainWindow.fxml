@@ -36,7 +36,7 @@
                 <Insets />
             </VBox.margin>
         </Separator>
-        <Button fx:id="cars" alignment="CENTER"  mnemonicParsing="false" onAction="#showCarsDialog" prefHeight="51.0" prefWidth="220.0" style="-fx-alignment: center;" text="Cars" textAlignment="CENTER">
+        <Button alignment="CENTER"  mnemonicParsing="false" onAction="#showCarsDialog" prefHeight="51.0" prefWidth="220.0" style="-fx-alignment: center;" text="Cars" textAlignment="CENTER">
             <graphic>
                 <ImageView fitHeight="45.0" fitWidth="50.0">
                     <Image url="car.png" />
@@ -46,7 +46,7 @@
                 <Font size="24.0" />
             </font>
         </Button>
-        <Button fx:id="customers" mnemonicParsing="false" onAction="#showCustomersDialog" prefHeight="54.0" prefWidth="220.0" text="Customers">
+        <Button mnemonicParsing="false" onAction="#showCustomersDialog" prefHeight="54.0" prefWidth="220.0" text="Customers">
             <graphic>
                 <ImageView fitHeight="45.0" fitWidth="50.0">
                     <Image url="customer.png" />
@@ -56,7 +56,7 @@
                 <Font size="24.0" />
             </font>
         </Button>
-        <Button fx:id="rentals" mnemonicParsing="false" onAction="#showRentalsDialog" prefHeight="57.0" prefWidth="220.0" text="Rentals">
+        <Button mnemonicParsing="false" onAction="#showRentalsDialog" prefHeight="57.0" prefWidth="220.0" text="Rentals">
             <graphic>
                 <ImageView fitHeight="45.0" fitWidth="50.0">
                     <Image url="rental.png" />

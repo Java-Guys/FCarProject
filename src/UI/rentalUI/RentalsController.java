@@ -15,6 +15,13 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * @author Omar Alkashef
+ * @author M-Hamdy-M
+ * Creation Date : 13-11-2020
+ * @version 4
+ */
+
 public class RentalsController {
 
     @FXML
@@ -52,17 +59,23 @@ public class RentalsController {
     @FXML
     private TableColumn<Rental, Double> totalColumn;
 
+    @FXML
+    private Button rentButton;
 
-
+    /**
+     * populating rental tableView
+     */
     public void initialize() {
+        renderCarComboBox();
+        if (Data.getInstance().getSystem().getCustomers().size() > 0) {
+            customerComboBox.setItems(Data.getInstance().getSystem().getCustomers());
+            customerComboBox.setValue(Data.getInstance().getSystem().getCustomers().get(0));
+        }
 
-        customerComboBox.setItems(Data.getInstance().getSystem().getCustomers());
-        customerComboBox.setValue(Data.getInstance().getSystem().getCustomers().get(0));
-        System.out.println(Data.getInstance().getVisitors().get(0));
-
-
-        carComboBox.setItems(Data.getInstance().getSystem().getCarByAvailability(true));
-        carComboBox.setValue(Data.getInstance().getSystem().getCarByAvailability(true).get(0));
+        if (Data.getInstance().getSystem().getCarByAvailability(true).size() > 0) {
+            carComboBox.setItems(Data.getInstance().getSystem().getCarByAvailability(true));
+            carComboBox.setValue(Data.getInstance().getSystem().getCarByAvailability(true).get(0));
+        }
 
         startDateDP.setValue(LocalDate.now());
         endDateDP.setValue(LocalDate.now().plusDays(1));
@@ -74,14 +87,19 @@ public class RentalsController {
         invoiceDateColumn.setCellValueFactory(new PropertyValueFactory<>("invoiceDate"));
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("total"));
 
+
         rentalsTable.setItems(Data.getInstance().getSystem().getRentals());
     }
 
 
+    /**
+     * @param event
+     */
     @FXML
     void handleRent(ActionEvent event) {
         System.out.println("Entered handleRent");
-        if (!carComboBox.getValue().getIsAvailable()){
+
+        if (!carComboBox.getValue().getIsAvailable()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "This car is already rented!", ButtonType.OK);
             alert.show();
             return;
@@ -96,10 +114,16 @@ public class RentalsController {
         rental.setEndDate(endDateDP.getValue());
         rental.setDeposit(2000);
         rental.getInvoice().setPayments(new ArrayList<Payment>());
+        rental.getInvoice().setInvoiceDate(LocalDate.now());
 
-        if (rental.getCustomer() == null || rental.getCar() == null ){
+        if (rental.getCustomer() == null || rental.getCar() == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot place a rental with no customer or car!", ButtonType.OK);
-            alert.showAndWait();
+            alert.show();
+            return;
+        }
+        if (rental.getStartDate() == null || rental.getEndDate() == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR, "End date cannot be before start date!", ButtonType.OK);
+            alert.show();
             return;
         }
         System.out.println(rental);
@@ -108,8 +132,12 @@ public class RentalsController {
         Data.getInstance().getSystem().printRentals();
         Data.getInstance().saveRentals();
         Data.getInstance().saveCars();
+        renderCarComboBox();
     }
 
+    /**
+     * Return Back to Main Window when pressing the Back button
+     */
     public void backToMainWindow() {
         try {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("UI/MainWindow.fxml"));
@@ -121,6 +149,17 @@ public class RentalsController {
         }
     }
 
-
-
+    /**
+     * Check any changes in the Available Car List and rerender the Car Combo Box
+     */
+    public void renderCarComboBox() {
+        if (Data.getInstance().getSystem().getCarByAvailability(true).size() == 0) {
+            rentButton.setDisable(true);
+            carComboBox.setItems(null);
+        } else {
+            rentButton.setDisable(false);
+            carComboBox.setValue(Data.getInstance().getSystem().getCarByAvailability(true).get(0));
+            carComboBox.setItems(Data.getInstance().getSystem().getCarByAvailability(true));
+        }
+    }
 }

@@ -9,13 +9,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Car;
-import model.CarType;
 import model.Data;
 
 import java.io.IOException;
-import java.nio.file.attribute.UserDefinedFileAttributeView;
-import java.time.format.TextStyle;
 import java.util.Optional;
+
+/**
+ * @author M-Hamdy-M
+ * @author Ezeldin Ahmed
+ * @author Mahmoud Shreif
+ * Creation Date : 11-11-2020
+ * @version 3
+ */
 
 public class carsWindowController {
     @FXML
@@ -34,6 +39,9 @@ public class carsWindowController {
     private TableColumn<Car, Double> dailyRentalRateColumn;
 
 
+    /**
+     * populate the car tableView
+     */
     public void initialize() {
         plateNoColumn.setCellValueFactory(new PropertyValueFactory<>("plateNo"));
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("model"));
@@ -43,12 +51,9 @@ public class carsWindowController {
         carsTable.setItems(Data.getInstance().getSystem().getCars());
     }
 
-//    @FXML
-//    public void addCar() {
-//        Car car = new Car("new plate no", "new model", CarType.SEDAN, 6000);
-//        Data.getInstance().getSystem().addCar(car);
-//    }
-
+    /**
+     * shows the Add Car Dialog when pressing the Add Button
+     */
     @FXML
     public void showAddCarDialog() {
         Dialog<ButtonType> dialog = new Dialog<>();
@@ -62,7 +67,6 @@ public class carsWindowController {
         } catch (IOException e) {
             System.out.println("Couldn't load the dialog");
             System.out.println(e.getMessage());
-            e.printStackTrace();
             return;
         }
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
@@ -74,29 +78,29 @@ public class carsWindowController {
             AddCarController controller = fxmlLoader.getController();
             try {
                 Car car = controller.processResult();
-                Data.getInstance().getSystem().addCar(car);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, Data.getInstance().getSystem().addCar(car), ButtonType.OK);
+                alert.show();
+                return;
             } catch (IllegalArgumentException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                         e.getMessage(),
                         ButtonType.OK);
-                alert.showAndWait();
+                alert.show();
             }
-
         }
     }
 
+    /**
+     * shows the Update Car Dialog when pressing the Update Button
+     */
     @FXML
     public void showUpdateCarDialog() {
-        Dialog<ButtonType> dialog = new Dialog<>();
         if (carsTable.getSelectionModel().getSelectedItem() == null) {
-            dialog.setTitle("Message");
-            dialog.setHeaderText("Message");
-            dialog.setContentText("Please select a car to update or add a new one!");
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            Optional<ButtonType> result = dialog.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a car to update or add a new one!", ButtonType.OK);
+            alert.show();
             return;
-
         }
+        Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Update Car");
         dialog.setHeaderText("Please change The information you need to update");
         Car selectedCar = carsTable.getSelectionModel().getSelectedItem();
@@ -105,7 +109,7 @@ public class carsWindowController {
         try {
             dialog.getDialogPane().setContent(loader.load());
             AddCarController controller = loader.getController();
-            controller.populateFields(selectedCar.getPlateNo(), selectedCar.getModel(), selectedCar.getType(), selectedCar.getIsAvailable(), selectedCar.getDailyRentalRate());
+            controller.populateFields(selectedCar);
         } catch (IOException e) {
             System.out.println("Failed to load the dialog");
             System.out.println(e.getMessage());
@@ -118,8 +122,17 @@ public class carsWindowController {
             AddCarController controller = loader.getController();
             try {
                 Car newCar = controller.processResult();
-                Data.getInstance().getSystem().getCars().set(Data.getInstance().getSystem().getCars().indexOf(selectedCar), newCar);
+                if (Data.getInstance().getSystem().modifyCar(selectedCar, newCar)) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Car Updated Successfully", ButtonType.OK);
+                    alert.show();
+                    return;
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "There are already exist a car with this plateNo", ButtonType.OK);
+                    alert.show();
+                    return;
+                }
             } catch (IllegalArgumentException e) {
+                System.out.println("error here");
                 Alert alert = new Alert(Alert.AlertType.ERROR,
                         e.getMessage(),
                         ButtonType.OK);
@@ -131,43 +144,47 @@ public class carsWindowController {
         System.out.println(selectedCar.toString());
     }
 
+    /**
+     * Deletes the Car when pressing the Delete Button
+     */
     @FXML
     public void deleteCar() {
         Dialog<ButtonType> dialog = new Dialog<>();
         if (carsTable.getSelectionModel().getSelectedItem() == null) {
-            dialog.setTitle("Message");
-            dialog.setHeaderText("Message");
-            dialog.setContentText("Please select a car to delete!");
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                return;
-            }
+            Alert alert = new Alert(Alert.AlertType.ERROR,
+                    "Please select a car to delete!",
+                    ButtonType.OK);
+            alert.show();
+            return;
         }
-        dialog.setTitle("Delete confirmation");
         Car selectedCar = carsTable.getSelectionModel().getSelectedItem();
-        dialog.setHeaderText("Are you sure you want to delete car with plate no " + selectedCar.getPlateNo() + "?");
-
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-        Optional<ButtonType> result = dialog.showAndWait();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are you sure you want to delete car with plate no " + selectedCar.getPlateNo() + "?",
+                ButtonType.OK, ButtonType.CANCEL);
+        Optional<ButtonType> result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-//            Data.getInstance().getSystem().getCars().remove(selectedCar);
-            Data.getInstance().getSystem().deleteCar(selectedCar.getPlateNo());
+            Alert deleteConfirmationAlert = new Alert(Alert.AlertType.INFORMATION,
+                    Data.getInstance().getSystem().deleteCar(selectedCar.getPlateNo()),
+                    ButtonType.OK);
+            deleteConfirmationAlert.show();
         }
-
     }
 
+    /**
+     * saves the Car in the System to Json File when pressing the Save Button
+     */
     @FXML
     public void saveCars() {
         Data.getInstance().saveCars();
         Data.getInstance().saveRentals();
     }
 
+    /**
+     * Return Back to Main Window when pressing the Back button
+     */
     @FXML
     public void backToMainWindow() {
-
         try {
             Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("UI/MainWindow.fxml"));
             Stage activeStage = (Stage) carWindow.getScene().getWindow();
